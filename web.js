@@ -12,6 +12,10 @@ export default () => {
     generateNoise();
   }
   
+  document.getElementById("randomDiffuse").oninput = () => {
+    generateNoise();
+  };
+  
   firstRun();
 }
 
