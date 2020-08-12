@@ -29,7 +29,9 @@ function generateNoise() {
       var cell = (x + y * canvas.width) * 4;
       var color = [];
       
-      if (value < 45) {
+      var shoreNoise = Math.floor(Math.random() * 5);
+      
+      if (value < 45-shoreNoise) {
         color = colorWater(cell);      
       }
       else if (value < 90) {
