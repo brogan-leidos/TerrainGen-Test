@@ -30,7 +30,7 @@ body {
 
 .sidebar {
   height: 100%;
-  width: 10%; 
+  width: 18%; 
   position: fixed;
   z-index: 1;
   background-color: #ddd; 
