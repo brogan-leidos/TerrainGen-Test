@@ -87,7 +87,7 @@ function getPixelsInRad(x, y, rad) {
 
 
 function blendPixels(data, radius) {
-  var postProcessData = Object.create(data);
+  var postProcessData = Object.assign(data);
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) {
        var cell = (x + y * canvas.width) * 4;
