@@ -28,7 +28,7 @@ function generateNoise() {
       var value = Math.abs(noise.perlin2(x / 100, y / 100));
       value *= 256;
 
-      var cell = (x + y * canvas.width) * 4;
+      var cell = (x + y * canvas.width) * 3;
       data[cell] = data[cell + 1] = data[cell + 2] = value;
       data[cell] += Math.max(0, (25 - value) * 8);
       data[cell + 3] = 255; // alpha.
