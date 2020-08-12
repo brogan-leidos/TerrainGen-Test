@@ -20,7 +20,7 @@ function firstRun() {
   document.getElementById("fuzz").value = 5;
   document.getElementById("scale").value = 100;
   document.getElementById("heightRange").value = 70;
-  document.getElementById("randomDiffuse").value = 3;
+  document.getElementById("randomDiffuse").value = 1;
 
   generateNoise();
 }
