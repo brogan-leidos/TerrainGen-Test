@@ -13,7 +13,7 @@ export default () => {
 }
   
 function generateNoise() {
-  var blendAmount = parseInt(document.getElementById("blendAmount"));
+  var blendAmount = parseInt(document.getElementById("blendAmount").value);
   
   canvas = document.getElementsByTagName('canvas')[0];
   canvas.width = 1024;
