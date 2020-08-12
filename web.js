@@ -78,7 +78,7 @@ function colorLand(cell) {
 
 function colorForest(cell) {
   var colorNoise = Math.floor(Math.random() * 40);
-  return [0+colorNoise, 150-colorNoise, 0, 255];
+  return [0+colorNoise, 150-colorNoise, 0+colorNoise/10, 255];
 }
 
 function colorMtn(cell) {
