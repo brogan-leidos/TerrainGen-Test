@@ -15,7 +15,8 @@ function firstRun() {
   document.getElementById("blendAmount").value = 1;
   document.getElementById("fuzz").value = 5;
   document.getElementById("scale").value = 100;
-  
+  document.getElementById("heightRange").value = 50;
+
   generateNoise();
 }
 
@@ -38,6 +39,7 @@ function generateNoise() {
 
   var scale = document.getElementById("scale").value;
   var fuzz = document.getElementById("fuzz").value;
+  var seaLevel = document.getElementById("heightRange").value;
   
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) {
@@ -49,16 +51,16 @@ function generateNoise() {
       
       var borderNoise = Math.floor(Math.random() * fuzz);
       
-      if (value < 30 - borderNoise) {
+      if (value < (seaLevel / 2) - borderNoise) {
         color = colorDeepWater(cell);
       }      
-      else if (value < 55 - borderNoise) {
+      else if (value < seaLevel - borderNoise) {
         color = colorWater(cell);      
       }
-      else if (value < 90 - borderNoise) {
+      else if (value < (seaLevel * 2) - borderNoise) {
         color = colorLand(cell);
       }
-      else if (value < 180 - borderNoise) {
+      else if (value < (seaLevel * 3) - borderNoise) {
         color = colorForest(cell);
       }
       else {
