@@ -2,6 +2,7 @@ import Noise from './perlin.js'
 
 var noise = new Noise();
 var canvas = null;
+var seed = 0;
 
 export default () => {
   document.getElementById("genButton").addEventListener('click', () => {
@@ -30,7 +31,6 @@ function firstRun() {
 }
 
 function generateNoise() {
-  var seed = 0;
   if (document.getElementById("newSeedCheck").checked) {
     seed = Math.random();
     noise.seed(seed);
@@ -66,7 +66,7 @@ function generateNoise() {
     }
   }
   
-  noise.seed(Math.random());
+  noise.seed(seed+1);
   for (var x = 0; x < canvas.width; x++) {
     noise2.push(new Array());
     for (var y = 0; y < canvas.height; y++) {
