@@ -43,9 +43,9 @@ var data = image.data;
 var start = Date.now();
 
 for (var x = 0; x < canvas.width; x++) {
-  if (x % 100 == 0) {
-   noise.seed(Math.random());
-  }
+//   if (x % 100 == 0) {
+//    noise.seed(Math.random());
+//   }
   for (var y = 0; y < canvas.height; y++) {
     var value = Math.abs(noise.perlin2(x / 100, y / 100));
     value *= 256;
