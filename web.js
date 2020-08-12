@@ -35,15 +35,15 @@ function generateNoise() {
       var cell = (x + y * canvas.width) * 4;
       var color = [];
       
-      var shoreNoise = Math.floor(Math.random() * 15 + 5);
+      var borderNoise = Math.floor(Math.random() * 15 + 5);
       
-      if (value < 55-shoreNoise) {
+      if (value < 55 - borderNoise) {
         color = colorWater(cell);      
       }
-      else if (value < 90) {
+      else if (value < 90 - borderNoise) {
         color = colorLand(cell);
       }
-      else if (value < 180) {
+      else if (value < 180 - borderNoise) {
         color = colorForest(cell);
       }
       else {
