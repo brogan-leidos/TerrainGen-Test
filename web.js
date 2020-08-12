@@ -2,23 +2,18 @@ import Noise from './perlin.js'
 
 var noise = new Noise();
 var canvas = null;
-var seedIncrement = 0;
 
 export default () => {
   document.getElementById("genButton").addEventListener('click', () => {
     noise.seed(Math.random());
     generateNoise();
   });
-  
-  setInterval(generateNoise, 10);
-  
+    
   generateNoise();
 }
   
 function generateNoise() {
-  if (seedIncrement != 0) {
-    noise.seed(seedIncrement); 
-  }
+
   var start = Date.now();
   var blendAmount = parseInt(document.getElementById("blendAmount").value);
   
