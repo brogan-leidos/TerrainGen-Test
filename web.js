@@ -10,7 +10,7 @@ export default () => {
     generateNoise();
   });
   
-  setInterval(generateNoise, 200);
+  setInterval(generateNoise, 10);
   
   generateNoise();
 }
