@@ -46,9 +46,7 @@ function generateNoise() {
       
     }
   }
-
-  ctx.fillColor = 'black';
-  ctx.fillRect(0, 0, 100, 100);
+  
   ctx.putImageData(image, 0, 0);
 }
 
