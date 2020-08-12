@@ -76,7 +76,7 @@ function generateNoise() {
     }
   }
   
-  var avgNoise = averageNoise(noise1, noise2, randomDiffuse);
+  var avgNoise = diffuseRandomMap(noise1, noise2, randomDiffuse);
   
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) { 
@@ -153,12 +153,12 @@ function colorHeight(value) {
   return [value, value, value, 255];
 }
 
-function averageNoise(noise1, noise2, randomDiffuse) {
+function diffuseRandomMap(noise1, noise2, randomDiffuse) {
   var retNoise = [];
   for(var i=0; i < noise1.length; i++) {
     retNoise.push(new Array());
     for(var j=0; j < noise1[i].length; j++) {
-      var averagedValue = noise1[i][j] + ((noise2[i][j] + noise1[i][j]) / randomDiffuse);
+      var averagedValue = noise1[i][j] + (noise2[i][j] / randomDiffuse);
       
       retNoise[i].push(averagedValue);
     }
