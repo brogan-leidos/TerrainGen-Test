@@ -41,6 +41,9 @@ function generateNoise() {
       else if (value < 90) {
         color = colorLand(cell);
       }
+      else if (value < 180) {
+        color = colorForest(cell);
+      }
       else {
         color = colorMtn(cell);
       }
@@ -73,9 +76,14 @@ function colorLand(cell) {
   return [200-colorNoise, 200-colorNoise, 0, 255];
 }
 
+function colorForest(cell) {
+  var colorNoise = Math.floor(Math.random() * 40);
+  return [0+colorNoise, 150-colorNoise, 0, 255];
+}
+
 function colorMtn(cell) {
   var colorNoise = Math.floor(Math.random() * 20);
-  return [150-colorNoise, 150-colorNoise, 0, 255];
+  return [230-colorNoise, 230-colorNoise, 255, 255];
 }
 
 
