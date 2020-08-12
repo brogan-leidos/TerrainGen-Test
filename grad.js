@@ -1,5 +1,4 @@
-
-export defualt class Grad {
+export default class Grad {
   construtor(x, y, z) {
     this.x = x; 
     this.y = y; 
