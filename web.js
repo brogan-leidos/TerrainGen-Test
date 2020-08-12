@@ -1,3 +1,6 @@
+import Noise from './perlin.js'
+
+var noise = new Noise();
 
 export default () => {
   document.getElementById("genButton").addEventListener('click', () => {
