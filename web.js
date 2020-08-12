@@ -16,7 +16,7 @@ export default () => {
 }
 
 function firstRun() {
-  document.getElementById("blendAmount").value = 1;
+  document.getElementById("blendAmount").value = 0;
   document.getElementById("fuzz").value = 5;
   document.getElementById("scale").value = 100;
   document.getElementById("heightRange").value = 50;
