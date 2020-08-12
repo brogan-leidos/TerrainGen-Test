@@ -38,6 +38,7 @@ export default class Noise {
     this.perm = new Array(512);
     this.gradP = new Array(512);
     
+    this.seed(0);
   }   
 
   // This isn't a very good seeding function, but it works ok. It supports 2^16
@@ -90,13 +91,13 @@ export default class Noise {
     var n11 = this.gradP[X+1+this.perm[Y+1]].dot2(x-1, y-1);
 
     // Compute the fade curve value for x
-    var u = fade(x);
+    var u = this.fade(x);
 
     // Interpolate the four results
-    return lerp(
-        lerp(n00, n10, u),
-        lerp(n01, n11, u),
-       fade(y));
+    return this.lerp(
+        this.lerp(n00, n10, u),
+        this.lerp(n01, n11, u),
+       this.fade(y));
   };
 
 }
