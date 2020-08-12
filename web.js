@@ -48,8 +48,8 @@ function generateNoise() {
   var seaLevel = document.getElementById("heightRange").value;
   var isHeightMap = document.getElementById("isHeightMap").checked;
   
-  var noise1 = [];
-  var noise2 = [];
+  var noise1 = new Array();
+  var noise2 = new Array();
   
   for (var x = 0; x < canvas.width; x++) {
     noise1.push(new Array());
