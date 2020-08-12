@@ -34,7 +34,7 @@ function generateNoise() {
       if (value < 45) {
         color = colorWater(cell);      
       }
-      else if (value < 60) {
+      else if (value < 90) {
         color = colorLand(cell);
       }
       else {
