@@ -7,7 +7,11 @@ export default () => {
   document.getElementById("genButton").addEventListener('click', () => {
     generateNoise();
   });
-    
+
+  document.getElementById("heightRange").oninput = function() {
+    generateNoise();
+  }
+  
   firstRun();
 }
 
