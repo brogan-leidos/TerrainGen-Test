@@ -33,12 +33,16 @@ body {
 <script src='perlin.js'></script>
 <script>
   
-document.getElementById("genButton").addEventListener('click', () => {
-  noise.seed(Math.random());
-  genereateNoise();
-});
 
-genereateNoise();
+
+export default () => {
+  document.getElementById("genButton").addEventListener('click', () => {
+    noise.seed(Math.random());
+    genereateNoise();
+  });
+  
+  genereateNoise();
+}
   
 function generateNoise() {
   var canvas = document.getElementsByTagName('canvas')[0];
