@@ -8,7 +8,6 @@ export default () => {
     genereateNoise();
   });
   
-  noise.seed(Math.random());
   generateNoise();
 }
   
