@@ -13,6 +13,7 @@ export default () => {
 }
   
 function generateNoise() {
+  var start = Date.now();
   var blendAmount = parseInt(document.getElementById("blendAmount").value);
   
   canvas = document.getElementsByTagName('canvas')[0];
@@ -55,6 +56,9 @@ function generateNoise() {
   if (blendAmount != 0) {
     data = boxBlur(data, blendAmount);
   }
+  
+  var end = Date.now();
+  console.log('Rendered in ' + (end - start) + ' ms');
   
   ctx.putImageData(image, 0, 0);
 }
