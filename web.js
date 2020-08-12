@@ -150,7 +150,7 @@ function colorHeight(value) {
 function averageNoise(noise1, noise2) {
   var retNoise = [];
   for(var i=0; i < noise1.length; i++) {
-    retNoise.push((noise1[i] + noise2[i]) / 2);
+    retNoise.push((noise1[i] + ( ((noise2[i] + noise1[i]) / 2) + noise1[i]) / 2 ) / 2);
   }
   return retNoise;
   
