@@ -5,7 +5,7 @@ var noise = new Noise();
 export default () => {
   document.getElementById("genButton").addEventListener('click', () => {
     noise.seed(Math.random());
-    genereateNoise();
+    generateNoise();
   });
   
   generateNoise();
