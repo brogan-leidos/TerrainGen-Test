@@ -29,7 +29,7 @@ function generateNoise() {
       value *= 256;
 
       var cell = (x + y * canvas.width) * 4;
-      var color = []'
+      var color = [];
       
       if (value < 30) {
         color = colorWater(cell);      
