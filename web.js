@@ -33,8 +33,9 @@ function firstRun() {
 function generateNoise() {
   if (document.getElementById("newSeedCheck").checked) {
     seed = Math.random();
-    noise.seed(seed);
-  }  
+  }
+  
+  noise.seed(seed);
   
   var start = Date.now();
   var blendAmount = parseInt(document.getElementById("blendAmount").value);
