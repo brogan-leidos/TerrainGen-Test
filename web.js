@@ -66,7 +66,8 @@ function generateNoise() {
     }
   }
   
-  noise.seed(seed+1);
+  var test = seed;
+  noise.seed(test+1);
   for (var x = 0; x < canvas.width; x++) {
     noise2.push(new Array());
     for (var y = 0; y < canvas.height; y++) {
