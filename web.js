@@ -31,7 +31,7 @@ function generateNoise() {
       var cell = (x + y * canvas.width) * 4;
       var color = [];
       
-      if (value < 30) {
+      if (value < 45) {
         color = colorWater(cell);      
       }
       else if (value < 60) {
@@ -65,14 +65,17 @@ function generateNoise() {
 }
 
 function colorWater(cell) {
-  return [0, 0, 255, 255];
+  var colorNoise = Math.floor(Math.random() * 10);
+  return [0, 0, 255-colorNoise, 255];
 }
 
 function colorLand(cell) {
-  return [200, 200, 0, 255];
+  var colorNoise = Math.floor(Math.random() * 10);
+  return [200-colorNoise, 200-colorNoise, 0, 255];
 }
 
 function colorMtn(cell) {
-  return [150, 150, 0, 255];
+  var colorNoise = Math.floor(Math.random() * 10);
+  return [150-colorNoise, 150-colorNoise, 0, 255];
 }
 
