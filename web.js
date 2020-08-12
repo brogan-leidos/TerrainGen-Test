@@ -71,7 +71,7 @@ function colorMtn(cell) {
 }
 
 function getPixelsInRad(x, y, rad) {
-  retArray = new Array();
+  var retArray = new Array();
   for(var i = rad * -1; i < rad; i++) {
     for (var j = rad * -1; j < rad; j++) {
       retArray.push([x + i,y + j]);
