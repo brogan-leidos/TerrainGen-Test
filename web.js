@@ -5,7 +5,6 @@ var canvas = null;
 
 export default () => {
   document.getElementById("genButton").addEventListener('click', () => {
-    noise.seed(Math.random());
     generateNoise();
   });
     
@@ -13,7 +12,10 @@ export default () => {
 }
   
 function generateNoise() {
-
+  if (document.getElementById("newSeedCheck").checked) {
+    noise.seed(Math.random());
+  }  
+  
   var start = Date.now();
   var blendAmount = parseInt(document.getElementById("blendAmount").value);
   
