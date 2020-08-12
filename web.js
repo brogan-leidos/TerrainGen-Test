@@ -13,7 +13,7 @@ export default () => {
 }
   
 function generateNoise() {
-  var blendCheck = document.getElementById("blendCheck").checked;
+  var blendAmount = parseInt(document.getElementById("blendCheck"));
   
   canvas = document.getElementsByTagName('canvas')[0];
   canvas.width = 1024;
@@ -52,8 +52,8 @@ function generateNoise() {
     }
   }
   
-  if (blendCheck) {
-    data = blendPixels(data, 1);
+  if (blendAmount != 0) {
+    data = blendPixels(data, blendAmount);
   }
   
   ctx.putImageData(image, 0, 0);
