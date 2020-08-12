@@ -121,7 +121,7 @@ function averagePixels(pixels, data) {
     var blueRowTotal = 0;
     
     for (var x=0; x < pixels[y].length; x++) {
-      var scanCell = getPixelByCoord(pixels[x][0], pixels[y][1]);
+      var scanCell = getPixelByCoord(pixels[y][x][0], pixels[y][x][1]);
       redRowTotal += data[scanCell];
       greenRowTotal += data[scanCell+1];
       blueRowTotal += data[scanCell+2];
