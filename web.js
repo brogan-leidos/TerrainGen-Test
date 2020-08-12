@@ -53,7 +53,7 @@ function generateNoise() {
   }
   
   if (blendAmount != 0) {
-    data = blendPixels(data, blendAmount);
+    data = boxBlur(data, blendAmount);
   }
   
   ctx.putImageData(image, 0, 0);
@@ -74,36 +74,67 @@ function colorMtn(cell) {
   return [150-colorNoise, 150-colorNoise, 0, 255];
 }
 
-function getPixelsInRad(x, y, rad) {
-  var retArray = new Array();
-  for(var i = rad * -1; i < rad; i++) {
-    for (var j = rad * -1; j < rad; j++) {
-      retArray.push([x + i,y + j]);
-    }
-  }
-  return retArray;
-}
 
 
 
-function blendPixels(data, radius) {
+function boxBlur(data, radius) {
   var postProcessData = Object.assign(data);
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) {
-       var cell = (x + y * canvas.width) * 4;
+       var cell = getPixelByCoord(x,y);
        var blendInput = getPixelsInRad(x, y, radius);
-       for (var i=0; i < blendInput.length; i++) {
-         var blendCellX = Math.min(Math.max(blendInput[i][0]+x, 0), canvas.width);
-         var blendCellY = Math.min(Math.max(blendInput[i][1]+y, 0), canvas.height);
-         var blendCell = (blendCellX + blendCellY * canvas.width) * 4;
-         postProcessData[cell] = (postProcessData[cell] + postProcessData[blendCell]) / 2; // red
-         postProcessData[cell+1] = (postProcessData[cell+1] + postProcessData[blendCell+1]) / 2; // green
-         postProcessData[cell+2] = (postProcessData[cell+2] + postProcessData[blendCell+2]) / 2; // blue
-         postProcessData[cell+3] = (postProcessData[cell+3] + postProcessData[blendCell+3]) / 2; // alpha
-       }
+       var averagedColorCell = averagePixels(blendInput, data);
+       
+       postProcessData[cell] = averagedColorCell[0];
+       postProcessData[cell+1] = averagedColorCell[1];
+       postProcessData[cell+2] = averagedColorCell[2];      
     }
   }
   return postProcessData;
   
+}
+
+function getPixelsInRad(x, y, rad) {
+  var ret = new Array();
+  for(var i = rad * -1; i < rad; i++) {
+    var row = new Array();
+    for (var j = rad * -1; j < rad; j++) {
+      row.push([x + i,y + j]);
+    }
+    ret.push(row);
+  }
+  return ret;
+}
+
+function averagePixels(pixels, data) {
+  var redTotal = 0;
+  var greenTotal = 0;
+  var blueTotal = 0;
+
+  for (var y=0; y < pixels.length; y++) {
+    var redRowTotal = 0;
+    var greenRowTotal = 0;
+    var blueRowTotal = 0;
+    
+    for (var x=0; x < pixels[y].length; x++) {
+      var scanCell = getPixelByCoord(pixels[x][0], pixels[y][1]);
+      redRowTotal += data[scanCell];
+      greenRowTotal += data[scanCell+1];
+      blueRowTotal += data[scanCell+2];
+    }
+    redTotal += redRowTotal / pixels[y].length;
+    greenTotal += greenRowTotal / pixels[y].length;
+    blueTotal += blueRowTotal / pixels[y].length;
+  }
+  
+  redTotal /= pixels.length;
+  greenTotal /= pixels.length;
+  blueTotal /= pixels.length;
+  
+  return [redTotal, greenTotal, blueTotal];
+}
+
+function getPixelByCoord(x, y) {
+   return (x + y * canvas.width) * 4;
 }
 
