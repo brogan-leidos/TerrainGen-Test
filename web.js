@@ -21,8 +21,6 @@ function generateNoise() {
   var image = ctx.createImageData(canvas.width, canvas.height);
   var data = image.data;
 
-  var start = Date.now();
-
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) {
       var value = Math.abs(noise.perlin2(x / 100, y / 100));
@@ -48,20 +46,10 @@ function generateNoise() {
       
     }
   }
-  var end = Date.now();
 
   ctx.fillColor = 'black';
   ctx.fillRect(0, 0, 100, 100);
   ctx.putImageData(image, 0, 0);
-
-
-  ctx.font = '16px sans-serif'
-  ctx.textAlign = 'center';
-  ctx.fillText('Rendered in ' + (end - start) + ' ms', canvas.width / 2, canvas.height - 20);
-
-  if(console) {
-    console.log('Rendered in ' + (end - start) + ' ms');
-  }
 }
 
 function colorWater(cell) {
