@@ -8,9 +8,17 @@ export default () => {
     generateNoise();
   });
     
+  firstRun();
+}
+
+function firstRun() {
+  document.getElementById("blendAmount").value = 1;
+  document.getElementById("fuzz").value = 5;
+  document.getElementById("scale").value = 100;
+  
   generateNoise();
 }
-  
+
 function generateNoise() {
   if (document.getElementById("newSeedCheck").checked) {
     noise.seed(Math.random());
