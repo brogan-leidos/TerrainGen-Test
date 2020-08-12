@@ -5,7 +5,7 @@ export default () => {
     genereateNoise();
   });
   
-  genereateNoise();
+  generateNoise();
 }
   
 function generateNoise() {
