@@ -27,6 +27,7 @@ function generateNoise() {
   var data = image.data;
 
   var scale = document.getElementById("scale").value;
+  var fuzz = document.getElementById("fuzz").value;
   
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) {
@@ -36,7 +37,7 @@ function generateNoise() {
       var cell = (x + y * canvas.width) * 4;
       var color = [];
       
-      var borderNoise = Math.floor(Math.random() * 15 + 5);
+      var borderNoise = Math.floor(Math.random() * fuzz);
       
       if (value < 30 - borderNoise) {
         color = colorDeepWater(cell);
