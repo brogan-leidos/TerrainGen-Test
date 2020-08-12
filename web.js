@@ -41,8 +41,8 @@ function generateNoise() {
   var blendAmount = parseInt(document.getElementById("blendAmount").value);
   
   canvas = document.getElementsByTagName('canvas')[0];
-  canvas.width = 600;
-  canvas.height = 600;
+  canvas.width = 1024;
+  canvas.height = 740;
 
   var ctx = canvas.getContext('2d');
 
