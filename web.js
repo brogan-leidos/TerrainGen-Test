@@ -25,8 +25,10 @@ function firstRun() {
 }
 
 function generateNoise() {
+  var seed = 0;
   if (document.getElementById("newSeedCheck").checked) {
-    noise.seed(Math.random());
+    seed = Math.random();
+    noise.seed(seed);
   }  
   
   var start = Date.now();
@@ -44,12 +46,35 @@ function generateNoise() {
   var scale = document.getElementById("scale").value;
   var fuzz = document.getElementById("fuzz").value;
   var seaLevel = document.getElementById("heightRange").value;
+  var isHeightMap = document.getElementById("isHeightMap").checked;
+  
+  var noise1 = [];
+  var noise2 = [];
   
   for (var x = 0; x < canvas.width; x++) {
+    noise1.push(new Array());
     for (var y = 0; y < canvas.height; y++) {
       var value = Math.abs(noise.perlin2(x / scale, y / scale));
       value *= 256;
-
+      noise1[x].push(value);
+    }
+  }
+  
+  noise.seed(seed+1);
+  for (var x = 0; x < canvas.width; x++) {
+    noise1.push(new Array());
+    for (var y = 0; y < canvas.height; y++) {
+      var value = Math.abs(noise.perlin2(x / scale, y / scale));
+      value *= 256;
+      noise2[x].push(value);
+    }
+  }
+  
+  var noise = averageNoise(noise1, noise2);
+  
+  for (var x = 0; x < canvas.width; x++) {
+    for (var y = 0; y < canvas.height; y++) { 
+      var value = noise[x][y];
       var cell = (x + y * canvas.width) * 4;
       var color = [];
       
@@ -114,8 +139,14 @@ function colorMtn(cell) {
   return [230-colorNoise, 230-colorNoise, 255, 255];
 }
 
-
-
+function averageNoise(noise1, noise2) {
+  var retNoise = [];
+  for(var i=0; i < noise1.length; i++) {
+    retNoise.push((noise1[i] + noise2[i]) / 2);
+  }
+  return retNoise;
+  
+}
 
 function boxBlur(data, radius) {
   var postProcessData = Object.assign(data);
