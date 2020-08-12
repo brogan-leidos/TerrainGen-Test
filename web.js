@@ -158,7 +158,7 @@ function averageNoise(noise1, noise2, randomDiffuse) {
   for(var i=0; i < noise1.length; i++) {
     retNoise.push(new Array());
     for(var j=0; j < noise1[i].length; j++) {
-      var averagedValue = noise1[i][j] + ((noise2[i][j] + noise1[i][j]) / (10-randomDiffuse));
+      var averagedValue = noise1[i][j] + ((noise2[i][j] + noise1[i][j]) / randomDiffuse);
       
       retNoise[i].push(averagedValue);
     }
