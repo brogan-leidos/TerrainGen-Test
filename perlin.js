@@ -56,7 +56,7 @@ export default class Noise {
     dot3(x, y, z) {
       return this.x*x + this.y*y + this.z*z;
     };
-  }    
+  };
 
   
 
