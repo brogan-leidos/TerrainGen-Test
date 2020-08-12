@@ -85,9 +85,9 @@ function boxBlur(data, radius) {
   var postProcessData = Object.assign(data);
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) {
-       var cell = getPixelByCoord(x,y);
-       var blendInput = getPixelsInRad(x, y, radius);
-       var averagedColorCell = averagePixels(blendInput, data);
+       var cell = getCellByCoord(new Coord(x,y));
+       var pixelCoordGroup = getPixelsInRad(x, y, radius);
+       var averagedColorCell = averagePixels(pixelCoordGroup, data);
        
        postProcessData[cell] = averagedColorCell[0];
        postProcessData[cell+1] = averagedColorCell[1];
@@ -103,42 +103,49 @@ function getPixelsInRad(x, y, rad) {
   for(var i = rad * -1; i < rad; i++) {
     var row = new Array();
     for (var j = rad * -1; j < rad; j++) {
-      row.push([x + i, y + j]);
+      row.push(new Coord(x + i, y + j));
     }
     ret.push(row);
   }
   return ret;
 }
 
-function averagePixels(pixels, data) {
+function averagePixels(pixelCoordGroup, data) {
   var redTotal = 0;
   var greenTotal = 0;
   var blueTotal = 0;
 
-  for (var y=0; y < pixels.length; y++) {
+  for (var group=0; group < pixelCoordGroup.length; group++) {
     var redRowTotal = 0;
     var greenRowTotal = 0;
     var blueRowTotal = 0;
     
-    for (var x=0; x < pixels[y].length; x++) {
-      var scanCell = getPixelByCoord(pixels[y][x][0], pixels[y][x][1]);
+    for (var unit=0; unit < pixelCoordGroup[group].length; unit++) {
+      var scanCell = getCellByCoord(pixelCoordGroup[group][unit]);
       redRowTotal += data[scanCell];
       greenRowTotal += data[scanCell+1];
       blueRowTotal += data[scanCell+2];
     }
-    redTotal += redRowTotal / pixels[y].length;
-    greenTotal += greenRowTotal / pixels[y].length;
-    blueTotal += blueRowTotal / pixels[y].length;
+    redTotal += redRowTotal / pixelCoordGroup[group].length;
+    greenTotal += greenRowTotal / pixelCoordGroup[group].length;
+    blueTotal += blueRowTotal / pixelCoordGroup[group].length;
   }
   
-  redTotal /= pixels.length;
-  greenTotal /= pixels.length;
-  blueTotal /= pixels.length;
+  redTotal /= pixelCoordGroup.length;
+  greenTotal /= pixelCoordGroup.length;
+  blueTotal /= pixelCoordGroup.length;
   
   return [redTotal, greenTotal, blueTotal];
 }
 
-function getPixelByCoord(x, y) {
-   return (x + y * canvas.width) * 4;
+class Coord {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+function getCellByCoord(coord) {
+   return (coord.x + coord.y * canvas.width) * 4;
 }
 
