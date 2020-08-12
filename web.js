@@ -20,6 +20,7 @@ function firstRun() {
   document.getElementById("fuzz").value = 5;
   document.getElementById("scale").value = 100;
   document.getElementById("heightRange").value = 70;
+  document.getElementById("randomDiffuse").value = 3;
 
   generateNoise();
 }
@@ -47,6 +48,7 @@ function generateNoise() {
   var fuzz = document.getElementById("fuzz").value;
   var seaLevel = document.getElementById("heightRange").value;
   var isHeightMap = document.getElementById("isHeightMap").checked;
+  var randomDiffuse = document.getElementById("randomDiffuse").value;
   
   var noise1 = new Array();
   var noise2 = new Array();
@@ -70,7 +72,7 @@ function generateNoise() {
     }
   }
   
-  var avgNoise = averageNoise(noise1, noise2);
+  var avgNoise = averageNoise(noise1, noise2, randomDiffuse);
   
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) { 
@@ -147,12 +149,14 @@ function colorHeight(value) {
   return [value, value, value, 255];
 }
 
-function averageNoise(noise1, noise2) {
+function averageNoise(noise1, noise2, randomDiffuse) {
   var retNoise = [];
   for(var i=0; i < noise1.length; i++) {
     retNoise.push(new Array());
     for(var j=0; j < noise1[i].length; j++) {
-      retNoise[i].push((noise1[i][j] + ( ((noise2[i][j] + noise1[i][j]) / 2) + noise1[i][j]) / 2 ) / 2);
+      var averagedValue = noise1[i][j] + ((noise2[i][j] + noise1[i][j]) / (10-randomDiffuse));
+      
+      retNoise[i].push(averagedValue);
     }
   }
   return retNoise;
