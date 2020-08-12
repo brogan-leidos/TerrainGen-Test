@@ -23,7 +23,7 @@ export default class Noise {
     this.z = -1;
   }
 
-  function Grad(x, y, z) {
+  Grad(x, y, z) {
     this.x = x; this.y = y; this.z = z;
   }
   
