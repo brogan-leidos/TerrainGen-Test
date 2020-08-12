@@ -37,6 +37,8 @@ export default class Noise {
     // To remove the need for index wrapping, double the permutation table length
     this.perm = new Array(512);
     this.gradP = new Array(512);
+    
+    seed(0);
   }   
 
   // This isn't a very good seeding function, but it works ok. It supports 2^16
