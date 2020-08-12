@@ -62,9 +62,9 @@ export default class Noise {
     for(var i = 0; i < 256; i++) {
       var v;
       if (i & 1) {
-        v = p[i] ^ (seed & 255);
+        v = this.p[i] ^ (seed & 255);
       } else {
-        v = p[i] ^ ((seed>>8) & 255);
+        v = this.p[i] ^ ((seed>>8) & 255);
       }
 
       this.perm[i] = this.perm[i + 256] = v;
