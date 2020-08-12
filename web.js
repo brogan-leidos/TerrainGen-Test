@@ -99,7 +99,8 @@ function getPixelsInRad(x, y, rad) {
   for(var i = rad * -1; i < rad; i++) {
     var row = new Array();
     for (var j = rad * -1; j < rad; j++) {
-      row.push([x + i,y + j]);
+      row.push(x + i);
+      row.push(y + j);
     }
     ret.push(row);
   }
