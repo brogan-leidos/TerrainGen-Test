@@ -28,10 +28,24 @@ function generateNoise() {
       var value = Math.abs(noise.perlin2(x / 100, y / 100));
       value *= 256;
 
-      var cell = (x + y * canvas.width) * 5;
-      data[cell] = data[cell + 1] = data[cell + 2] = value;
-      data[cell] += Math.max(0, (25 - value) * 8);
-      data[cell + 3] = 255; // alpha.
+      var cell = (x + y * canvas.width) * 4;
+      var color = []'
+      
+      if (value < 30) {
+        color = colorWater(cell);      
+      }
+      else if (value < 60) {
+        color = colorLand(cell);
+      }
+      else {
+        color = colorMtn(cell);
+      }
+      
+      data[cell] = color[0]
+      data[cell+1] = color[1]
+      data[cell+2] = color[2]
+      data[cell+3] = color[3]
+      
     }
   }
   var end = Date.now();
@@ -48,5 +62,17 @@ function generateNoise() {
   if(console) {
     console.log('Rendered in ' + (end - start) + ' ms');
   }
+}
+
+function colorWater(cell) {
+  return [0, 0, 255, 255];
+}
+
+function colorLand(cell) {
+  return [200, 200, 0, 255];
+}
+
+function colorMtn(cell) {
+  return [150, 150, 0, 255];
 }
 
