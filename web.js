@@ -25,9 +25,12 @@ function generateNoise() {
   var image = ctx.createImageData(canvas.width, canvas.height);
   var data = image.data;
 
+  var xScale = document.getElementById("xScale").value;
+  var yScale = document.getElementById("yScale").value;
+  
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) {
-      var value = Math.abs(noise.perlin2(x / 100, y / 100));
+      var value = Math.abs(noise.perlin2(x / xScale, y / yScale));
       value *= 256;
 
       var cell = (x + y * canvas.width) * 4;
