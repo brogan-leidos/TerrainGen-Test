@@ -67,7 +67,6 @@ function generateNoise() {
   console.log('Rendered in ' + (end - start) + ' ms');
   
   ctx.putImageData(image, 0, 0);
-  seedIncrement++;
 }
 
 function colorWater(cell) {
