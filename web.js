@@ -70,11 +70,11 @@ function generateNoise() {
     }
   }
   
-  var noise = averageNoise(noise1, noise2);
+  var avgNoise = averageNoise(noise1, noise2);
   
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) { 
-      var value = noise[x][y];
+      var value = avgNoise[x][y];
       var cell = (x + y * canvas.width) * 4;
       var color = [];
       
