@@ -96,6 +96,10 @@ function generateNoise() {
         color = colorMtn(cell);
       }
       
+      if (isHeightMap) {
+        color = colorHeight(value);
+      }
+      
       data[cell] = color[0]
       data[cell+1] = color[1]
       data[cell+2] = color[2]
@@ -137,6 +141,10 @@ function colorForest(cell) {
 function colorMtn(cell) {
   var colorNoise = Math.floor(Math.random() * 20);
   return [230-colorNoise, 230-colorNoise, 255, 255];
+}
+
+function colorHeight(value) {
+  return [value, value, value, 255];
 }
 
 function averageNoise(noise1, noise2) {
