@@ -62,7 +62,7 @@ function generateNoise() {
   
   noise.seed(seed+1);
   for (var x = 0; x < canvas.width; x++) {
-    noise1.push(new Array());
+    noise2.push(new Array());
     for (var y = 0; y < canvas.height; y++) {
       var value = Math.abs(noise.perlin2(x / scale, y / scale));
       value *= 256;
