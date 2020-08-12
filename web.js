@@ -64,7 +64,7 @@ function generateNoise() {
 }
 
 function colorWater(cell) {
-  var colorNoise = Math.floor(Math.random() * 20);
+  var colorNoise = Math.floor(Math.random() * 50);
   return [0, 0+colorNoise, 255-colorNoise, 255];
 }
 
