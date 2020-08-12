@@ -27,3 +27,13 @@ canvas {
 body {
   background-color: #eee;
 }
+
+.sidebar {
+  height: 100%;
+  width: 10%; 
+  position: fixed;
+  z-index: 1;
+  background-color: #ddd; 
+  padding-top: 20px;
+  margin-left: 0px;
+}
