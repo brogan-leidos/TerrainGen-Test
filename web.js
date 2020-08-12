@@ -40,8 +40,8 @@ function generateNoise() {
   var blendAmount = parseInt(document.getElementById("blendAmount").value);
   
   canvas = document.getElementsByTagName('canvas')[0];
-  canvas.width = 1024;
-  canvas.height = 768;
+  canvas.width = 600;
+  canvas.height = 600;
 
   var ctx = canvas.getContext('2d');
 
@@ -66,7 +66,7 @@ function generateNoise() {
     }
   }
   
-  noise.seed(seed+10);
+  noise.seed(seed+1);
   for (var x = 0; x < canvas.width; x++) {
     noise2.push(new Array());
     for (var y = 0; y < canvas.height; y++) {
