@@ -38,7 +38,10 @@ function generateNoise() {
       
       var borderNoise = Math.floor(Math.random() * 15 + 5);
       
-      if (value < 55 - borderNoise) {
+      if (value < 30 - borderNoise) {
+        color = colorDeepWater(cell);
+      }      
+      else if (value < 55 - borderNoise) {
         color = colorWater(cell);      
       }
       else if (value < 90 - borderNoise) {
@@ -72,6 +75,11 @@ function generateNoise() {
 function colorWater(cell) {
   var colorNoise = Math.floor(Math.random() * 50);
   return [0, 0+colorNoise, 255-colorNoise, 255];
+}
+
+function colorDeepWater(cell) {
+  var colorNoise = Math.floor(Math.random() * 50);
+  return [0, 0+colorNoise/2, 255-colorNoise*2, 255];
 }
 
 function colorLand(cell) {
