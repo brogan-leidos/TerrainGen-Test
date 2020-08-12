@@ -17,21 +17,22 @@
 export default class Noise {
   
   constructor() {
-    this.module = {};
     this.x = -1;
     this.y = -1;
     this.z = -1;
+    
+    seed(0);
   }
 
   Grad(x, y, z) {
     this.x = x; this.y = y; this.z = z;
   }
   
-  Grad.prototype.dot2 = function(x, y) {
+  var dot2 = function(x, y) {
     return this.x*x + this.y*y;
   };
 
-  Grad.prototype.dot3 = function(x, y, z) {
+  var dot3 = function(x, y, z) {
     return this.x*x + this.y*y + this.z*z;
   };
 
@@ -58,7 +59,7 @@ export default class Noise {
 
   // This isn't a very good seeding function, but it works ok. It supports 2^16
   // different seed values. Write something better if you need more seeds.
-  export function seed(seed) {
+  seed(seed) {
     if(seed > 0 && seed < 1) {
       // Scale the seed out
       seed *= 65536;
@@ -82,7 +83,6 @@ export default class Noise {
     }
   };
 
-  module.seed(0);
 
   /*
   for(var i=0; i<256; i++) {
