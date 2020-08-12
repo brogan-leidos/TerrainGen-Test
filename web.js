@@ -93,7 +93,9 @@ function blendPixels(data, radius) {
        var cell = (x + y * canvas.width) * 4;
        var blendInput = getPixelsInRad(x, y, radius);
        for (var i=0; i < blendInput.length; i++) {
-         var blendCell = (blendInput[i][0]+x + blendInput[i][1]+y * canvas.width) * 4;
+         var blendCellX = Math.min(Math.max(blendInput[i][0]+x, 0), canvas.width);
+         var blendCellY = Math.min(Math.max(blendInput[i][1]+y, 0), canvas.height);
+         var blendCell = (blendCellX + blendCellY * canvas.width) * 4;
          postProcessData[cell] = (postProcessData[cell] + postProcessData[blendCell]) / 2; // red
          postProcessData[cell+1] = (postProcessData[cell+1] + postProcessData[blendCell+1]) / 2; // green
          postProcessData[cell+2] = (postProcessData[cell+2] + postProcessData[blendCell+2]) / 2; // blue
