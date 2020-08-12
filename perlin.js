@@ -14,6 +14,22 @@
  *
  */
 
+class Grad {
+  construtor(x, y, z) {
+    this.x = x; 
+    this.y = y; 
+    this.z = z;
+  };
+
+  dot2(x, y) {
+    return this.x*x + this.y*y;
+  };
+
+  dot3(x, y, z) {
+    return this.x*x + this.y*y + this.z*z;
+  };
+};
+
 export default class Noise {
   
   constructor() {    
@@ -47,25 +63,7 @@ export default class Noise {
     
     seed(0);
 
-  }
-
-  class Grad {
-    construtor(x, y, z) {
-      this.x = x; 
-      this.y = y; 
-      this.z = z;
-    };
-    
-    dot2(x, y) {
-      return this.x*x + this.y*y;
-    };
-
-    dot3(x, y, z) {
-      return this.x*x + this.y*y + this.z*z;
-    };
-  };
-
-  
+  }   
 
   // This isn't a very good seeding function, but it works ok. It supports 2^16
   // different seed values. Write something better if you need more seeds.
