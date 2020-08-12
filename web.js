@@ -2,6 +2,7 @@ import Noise from './perlin.js'
 
 var noise = new Noise();
 var canvas = null;
+var seedIncrement = 0;
 
 export default () => {
   document.getElementById("genButton").addEventListener('click', () => {
@@ -9,10 +10,15 @@ export default () => {
     generateNoise();
   });
   
+  setInterval(generateNoise, 200);
+  
   generateNoise();
 }
   
 function generateNoise() {
+  if (seedIncrement != 0) {
+    noise.seed(seedIncrement); 
+  }
   var start = Date.now();
   var blendAmount = parseInt(document.getElementById("blendAmount").value);
   
@@ -66,6 +72,7 @@ function generateNoise() {
   console.log('Rendered in ' + (end - start) + ' ms');
   
   ctx.putImageData(image, 0, 0);
+  seedIncrement++;
 }
 
 function colorWater(cell) {
