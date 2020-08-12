@@ -1,6 +1,7 @@
 import Noise from './perlin.js'
 
 var noise = new Noise();
+var canvas = null;
 
 export default () => {
   document.getElementById("genButton").addEventListener('click', () => {
@@ -12,7 +13,7 @@ export default () => {
 }
   
 function generateNoise() {
-  var canvas = document.getElementsByTagName('canvas')[0];
+  canvas = document.getElementsByTagName('canvas')[0];
   canvas.width = 1024;
   canvas.height = 768;
 
@@ -49,21 +50,54 @@ function generateNoise() {
     }
   }
   
+  data = blendPixels(data, 1);
+  
   ctx.putImageData(image, 0, 0);
 }
 
 function colorWater(cell) {
-  var colorNoise = Math.floor(Math.random() * 10);
+  var colorNoise = Math.floor(Math.random() * 20);
   return [0, 0, 255-colorNoise, 255];
 }
 
 function colorLand(cell) {
-  var colorNoise = Math.floor(Math.random() * 10);
+  var colorNoise = Math.floor(Math.random() * 20);
   return [200-colorNoise, 200-colorNoise, 0, 255];
 }
 
 function colorMtn(cell) {
-  var colorNoise = Math.floor(Math.random() * 10);
+  var colorNoise = Math.floor(Math.random() * 20);
   return [150-colorNoise, 150-colorNoise, 0, 255];
+}
+
+function getPixelsInRad(x, y, rad) {
+  retArray = new Array();
+  for(var i = rad * -1; i < rad; i++) {
+    for (var j = rad * -1; j < rad; j++) {
+      retArray.push([x + i,y + j]);
+    }
+  }
+  return retArray;
+}
+
+
+
+function blendPixels(data, radius) {
+  var postProcessData = Object.create(data);
+  for (var x = 0; x < canvas.width; x++) {
+    for (var y = 0; y < canvas.height; y++) {
+       var cell = (x + y * canvas.width) * 4;
+       var blendInput = getPixelsInRad(x, y, radius);
+       for (var i=0; i < blendInput.length; i++) {
+         var blendCell = (blendInput[i][0] + blendInput[i][1] * canvas.width) * 4;
+         postProcessData[cell] = (postProcessData[cell] + postProcessData[blendCell]) / 2; // red
+         postProcessData[cell+1] = (postProcessData[cell+1] + postProcessData[blendCell+1]) / 2; // green
+         postProcessData[cell+2] = (postProcessData[cell+2] + postProcessData[blendCell+2]) / 2; // blue
+         postProcessData[cell+3] = (postProcessData[cell+3] + postProcessData[blendCell+3]) / 2; // alpha
+       }
+    }
+  }
+  return postProcessData;
+  
 }
 
