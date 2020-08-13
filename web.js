@@ -190,7 +190,7 @@ function colorForest(value) {
 }
 function colorGrassland(value) {
   var colorNoise = Math.floor(Math.random() * 10);
-  return [150+colorNoise, 200-colorNoise, 100+colorNoise, 255];
+  return [120+colorNoise, 180-colorNoise, 60+colorNoise, 255];
 }
 
 function colorMtn(value) {
