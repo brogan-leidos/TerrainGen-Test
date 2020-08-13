@@ -58,40 +58,40 @@ async function generateNoise() {
   var noise1 = new Array();
   var noise2 = new Array();
   
-  var noiseWorker = new Worker('MakeNoise.js');
-  var noiseWorker2 = new Worker('MakeNoise.js');
+//   var noiseWorker = new Worker('MakeNoise.js');
+//   var noiseWorker2 = new Worker('MakeNoise.js');
 
-  noiseWorker.addEventListener('message', (e) => {
-    noise1 = e.data;
-  });
+//   noiseWorker.addEventListener('message', (e) => {
+//     noise1 = e.data;
+//   });
   
-  noiseWorker2.addEventListener('message', (e) => {
-    noise2 = e.data;
-  });
+//   noiseWorker2.addEventListener('message', (e) => {
+//     noise2 = e.data;
+//   });
   
-  noiseWorker.postMessage([seed, canvas.width, canvas.height, scale]);
-  noiseWorker2.postMessage([seed+1, canvas.width, canvas.height, scale]);
+//   noiseWorker.postMessage([seed, canvas.width, canvas.height, scale]);
+//   noiseWorker2.postMessage([seed+1, canvas.width, canvas.height, scale]);
 
   
   
-//   for (var x = 0; x < canvas.width; x++) {
-//     noise1.push(new Array());
-//     for (var y = 0; y < canvas.height; y++) {
-//       var value = Math.abs(noise.perlin2(x / scale, y / scale));
-//       value *= 256;
-//       noise1[x].push(value);
-//     }
-//   }
+  for (var x = 0; x < canvas.width; x++) {
+    noise1.push(new Array());
+    for (var y = 0; y < canvas.height; y++) {
+      var value = Math.abs(noise.perlin2(x / scale, y / scale));
+      value *= 256;
+      noise1[x].push(value);
+    }
+  }
     
-//   noise.seed(seed+1);
-//   for (var x = 0; x < canvas.width; x++) {
-//     noise2.push(new Array());
-//     for (var y = 0; y < canvas.height; y++) {
-//       var value = Math.abs(noise.perlin2(x / scale, y / scale));
-//       value *= 256;
-//       noise2[x].push(value);
-//     }
-//   }
+  noise.seed(seed+1);
+  for (var x = 0; x < canvas.width; x++) {
+    noise2.push(new Array());
+    for (var y = 0; y < canvas.height; y++) {
+      var value = Math.abs(noise.perlin2(x / scale, y / scale));
+      value *= 256;
+      noise2[x].push(value);
+    }
+  }
   
   var avgNoise = diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel);
   
