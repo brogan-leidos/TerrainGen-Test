@@ -6,15 +6,15 @@ var seed = 0;
 
 export default () => {
   document.getElementById("genButton").addEventListener('click', () => {
-    generateNoise();
+    generateMap();
   });
 
   document.getElementById("heightRange").oninput = function() {
-    generateNoise();
+    generateMap();
   }
   
   document.getElementById("randomDiffuse").oninput = () => {
-    generateNoise();
+    generateMap();
   };
   
   firstRun();
@@ -27,10 +27,10 @@ function firstRun() {
   document.getElementById("heightRange").value = 70;
   document.getElementById("randomDiffuse").value = 1;
 
-  generateNoise();
+  generateMap();
 }
 
-async function generateNoise() {
+async function generateMap() {
   if (document.getElementById("newSeedCheck").checked) {
     seed = Math.random();
   }
@@ -73,25 +73,8 @@ async function generateNoise() {
 //   noiseWorker2.postMessage([seed+1, canvas.width, canvas.height, scale]);
 
   
-  
-  for (var x = 0; x < canvas.width; x++) {
-    noise1.push(new Array());
-    for (var y = 0; y < canvas.height; y++) {
-      var value = Math.abs(noise.perlin2(x / scale, y / scale));
-      value *= 256;
-      noise1[x].push(value);
-    }
-  }
-    
-  noise.seed(seed+1);
-  for (var x = 0; x < canvas.width; x++) {
-    noise2.push(new Array());
-    for (var y = 0; y < canvas.height; y++) {
-      var value = Math.abs(noise.perlin2(x / scale, y / scale));
-      value *= 256;
-      noise2[x].push(value);
-    }
-  }
+  noise1 = generateNoise();
+  noise2 = generateNoise(seed+1);
   
   var avgNoise = diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel);
   
@@ -107,9 +90,21 @@ async function generateNoise() {
   ctx.putImageData(image, 0, 0);
 }
 
-async function createNoiseSheet() {
-  noise1 = await 
+function generateNoise(seed= -1) {
+  if (seed != -1) {
+    noise.seed(seed);
+  }
   
+  var noiseData = new Array();  
+  for (var x = 0; x < canvas.width; x++) {
+    noiseData.push(new Array());
+    for (var y = 0; y < canvas.height; y++) {
+      var value = Math.abs(noise.perlin2(x / scale, y / scale));
+      value *= 256;
+      noiseData[x].push(value);
+    }
+  } 
+  return noiseData;
 }
 
 function colorNoise(avgNoise, data, canvas) {
