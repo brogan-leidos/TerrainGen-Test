@@ -53,17 +53,6 @@ async function generateMap(seed) {
   var isHeightMap = document.getElementById("isHeightMap").checked;
   var randomDiffuse = document.getElementById("randomDiffuse").value;
   var useAsync = document.getElementById("useAsync").checked;
-
-  
-//   var noise1 = new Promise((resolve, reject) => {
-//     if (true) {resolve(generateNoise(seed, scale)); }
-//     else { reject(err); }
-//   });
-  
-//   var noise2 = new Promise((resolve, reject) => {
-//     if (true) {resolve(generateNoise(seed+1, scale)); }
-//     else { reject(err); }
-//   });
   
   var noise2 = new Promise((resolve, reject) => {
     resolve(generateNoise(seed+1, scale));
@@ -93,13 +82,15 @@ async function generateMap(seed) {
     times.push(["Blur:", Date.now()]);
     data = boxBlur(data, blendAmount);
   }
+    
+  times.push(["Render:", Date.now()]);
+
+  ctx.putImageData(image, 0, 0);
   
   times.push(["End:", Date.now()]);
-  for (var i=0; i < times.length; i++) {    
-    console.log(times[i][0] + (times[i][1] - start) + ' ms');
+  for (var i=1; i < times.length; i++) {    
+    console.log(`${times[i][0]} ${times[i][1] - times[i-1][1]}ms elapsed (times[i][1] - start total)`);
   }
-  
-  ctx.putImageData(image, 0, 0);
 }
 
 function generateNoise(seed, scale) {
