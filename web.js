@@ -33,9 +33,7 @@ async function generateMap(seed) {
   if (document.getElementById("newSeedCheck").checked) {
     seed = Math.random();
   }
-  
-  noise.seed(seed);
-  
+    
   var start = Date.now();
   var blendAmount = parseInt(document.getElementById("blendAmount").value);
   
@@ -54,31 +52,13 @@ async function generateMap(seed) {
   var isHeightMap = document.getElementById("isHeightMap").checked;
   var randomDiffuse = document.getElementById("randomDiffuse").value;
   
-  var noise1 = new Array();
-  var noise2 = new Array();
-  
-//   var noiseWorker = new Worker('MakeNoise.js');
-//   var noiseWorker2 = new Worker('MakeNoise.js');
-
-//   noiseWorker.addEventListener('message', (e) => {
-//     noise1 = e.data;
-//   });
-  
-//   noiseWorker2.addEventListener('message', (e) => {
-//     noise2 = e.data;
-//   });
-  
-//   noiseWorker.postMessage([seed, canvas.width, canvas.height, scale]);
-//   noiseWorker2.postMessage([seed+1, canvas.width, canvas.height, scale]);
-
-  
   var noise1 = new Promise((resolve, reject) => {
-    if (true) {resolve(generateNoise()); }
+    if (true) {resolve(generateNoise(seed)); }
     else { reject(err); }
   });
   
   var noise2 = new Promise((resolve, reject) => {
-    if (true) {resolve(generateNoise()); }
+    if (true) {resolve(generateNoise(seed)); }
     else { reject(err); }
   });
   
@@ -102,11 +82,9 @@ async function generateMap(seed) {
   ctx.putImageData(image, 0, 0);
 }
 
-function generateNoise(seed= -1) {
-  if (seed != -1) {
-    noise.seed(seed);
-  }
+function generateNoise(seed) {
   var noise = new Noise();
+  noise.seed(seed);  
 
   var noiseData = new Array();  
   for (var x = 0; x < canvas.width; x++) {
