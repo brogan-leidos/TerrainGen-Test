@@ -80,6 +80,15 @@ async function generateMap() {
     var noise2 = new Promise((resolve, reject) => {
       resolve(generateNoise(1));
     });
+     var noise3 = new Promise((resolve, reject) => {
+      resolve(generateNoise(1));
+    });
+     var noise4 = new Promise((resolve, reject) => {
+      resolve(generateNoise(1));
+    });
+     var noise5 = new Promise((resolve, reject) => {
+      resolve(generateNoise(1));
+    });
     times.push(["Created Promises:", Date.now()]);
     const noiseResponses = await Promise.all([noise1, noise2]);  
     avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], settings.randomDiffuse, settings.seaLevel);
