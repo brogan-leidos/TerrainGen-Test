@@ -1,87 +1,108 @@
 import Noise from './perlin.js'
 
+
 var canvas = null;
 var seed = 0;
 
+class SettingObject {
+  constructor() {
+    this.seed = 0;
+    this.canvas = null;
+    this.noise1 = 0;
+    this.noise2 = 0;
+    this.blendRadius = 0;
+    this.scale = 0;
+    this.fuzz = 0;
+    this.seaLevel = 0;
+    this.randomDiffuse = 0;
+    this.isHeightMap = false;
+    this.useAsync = false;    
+  }
+}
+
+var settings = new SettingObject();
+
 export default () => {
   document.getElementById("genButton").addEventListener('click', () => {
-    generateMap(seed);
+    generateMap(settings);
   });
 
   document.getElementById("heightRange").oninput = function() {
-    generateMap(seed);
+    generateMap(settings);
   }
   
   document.getElementById("randomDiffuse").oninput = () => {
-    generateMap(seed);
+    generateMap(settings);
   };
   
   firstRun();
 }
 
 function firstRun() {
-  document.getElementById("blendAmount").value = 0;
-  document.getElementById("fuzz").value = 5;
-  document.getElementById("scale").value = 100;
-  document.getElementById("heightRange").value = 70;
-  document.getElementById("randomDiffuse").value = 1;
+  settings.blendRadius = document.getElementById("blendAmount").value = 0;
+  settings.fuzz = document.getElementById("fuzz").value = 5;
+  settings.scale = document.getElementById("scale").value = 100;
+  settings.seaLevel = document.getElementById("heightRange").value = 70;
+  settings.randomDiffuse = document.getElementById("randomDiffuse").value = 1;
 
-  generateMap(seed);
+  settings.noise2 = new Promise((resolve, reject) => {
+      resolve(generateNoise(settings.seed+1, settings.scale, settings.canvas));
+    });
+
+  settings.noise1 = new Promise((resolve, reject) => {
+      resolve(generateNoise(settings.seed, settings.scale, settings.canvas));
+    });
+  
+  generateMap(settings);
 }
 
-async function generateMap(seed) {
+async function generateMap(settings) {
   if (document.getElementById("newSeedCheck").checked) {
-    seed = Math.random();
+    settings.seed = Math.random();
   }
   var start = Date.now();
   var times = new Array();
   times.push(["Start:", Date.now()]);
   var blendAmount = parseInt(document.getElementById("blendAmount").value);
   
-  canvas = document.getElementsByTagName('canvas')[0];
-  canvas.width = 1024;
-  canvas.height = 740;
+  settings.canvas = document.getElementsByTagName('canvas')[0];
+  settings.canvas.width = 1024;
+  settings.canvas.height = 740;
 
-  var ctx = canvas.getContext('2d');
+  var ctx = settings.canvas.getContext('2d');
 
-  var image = ctx.createImageData(canvas.width, canvas.height);
+  var image = ctx.createImageData(settings.canvas.width, settings.canvas.height);
   var imageData = image.data;
 
-  var scale = document.getElementById("scale").value;
-  var fuzz = document.getElementById("fuzz").value;
-  var seaLevel = document.getElementById("heightRange").value;
-  var isHeightMap = document.getElementById("isHeightMap").checked;
-  var randomDiffuse = document.getElementById("randomDiffuse").value;
-  var useAsync = document.getElementById("useAsync").checked;
+  settings.scale = document.getElementById("scale").value;
+  settings.fuzz = document.getElementById("fuzz").value;
+  settings.seaLevel = document.getElementById("heightRange").value;
+  settings.isHeightMap = document.getElementById("isHeightMap").checked;
+  settings.randomDiffuse = document.getElementById("randomDiffuse").value;
+  settings.useAsync = document.getElementById("useAsync").checked;
   
   times.push(["Initialize:", Date.now()]);
   
   var avgNoise;
-  if (useAsync) {
-    var noise2 = new Promise((resolve, reject) => {
-      resolve(generateNoise(seed+1, scale));
-    });
-
-    var noise1 = new Promise((resolve, reject) => {
-      resolve(generateNoise(seed, scale));
-    });
+  if (settings.useAsync) {    
     times.push(["Created Promises:", Date.now()]);
-    const noiseResponses = await Promise.all([noise1, noise2]);  
-    avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], randomDiffuse, seaLevel);
+    const noiseResponses = await Promise.all([settings.noise1, settings.noise2]);  
+    avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], settings.randomDiffuse, settings.seaLevel);
   }
   else {
-    noise1 = generateNoise(seed, scale); noise2 = generateNoise(seed+1, scale);
-    avgNoise = diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel);
+    var noise1 = generateNoise(settings.seed, settings.scale, settings.canvas);
+    var noise2 = generateNoise(settings.seed+1, settings.scale, settings.canvas);
+    avgNoise = diffuseRandomMap(noise1, noise2, settings.randomDiffuse, settings.seaLevel);
   }
   
   times.push(["Generated Noise:", Date.now()]);
 
-  imageData = colorNoise(avgNoise, imageData, fuzz, seaLevel, isHeightMap);  
+  imageData = colorNoise(avgNoise, imageData, settings.fuzz, settings.seaLevel, settings.isHeightMap, settings.canvas);  
   times.push(["Coloring:", Date.now()]);
 
   
   if (blendAmount != 0) {
-    imageData = boxBlur(imageData, blendAmount);
+    imageData = boxBlur(imageData, blendAmount, settings.canvas);
     times.push(["Blur:", Date.now()]);
   }
     
@@ -95,7 +116,7 @@ async function generateMap(seed) {
   console.log(logStr);
 }
 
-function generateNoise(seed, scale) {
+function generateNoise(seed, scale, canvas) {
   var noise = new Noise();
   noise.seed(seed);  
 
@@ -111,7 +132,7 @@ function generateNoise(seed, scale) {
   return noiseData;
 }
 
-function colorNoise(avgNoise, data, fuzz, seaLevel, isHeightMap) {
+function colorNoise(avgNoise, data, fuzz, seaLevel, isHeightMap, canvas) {
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) { 
       var value = avgNoise[x][y];
@@ -195,11 +216,11 @@ function diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel) {
   
 }
 
-function boxBlur(data, radius) {
+function boxBlur(data, radius, canvas) {
   var postProcessData = Object.assign(data);
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) {
-       var cell = getCellByCoord(new Coord(x,y));
+       var cell = getCellByCoord(new Coord(x,y), canvas);
        var pixelCoordGroup = getPixelsInRad(x, y, radius);
        var averagedColorCell = averagePixels(pixelCoordGroup, data);
        
@@ -259,7 +280,7 @@ class Coord {
   }
 }
 
-function getCellByCoord(coord) {
+function getCellByCoord(coord, canvas) {
    return (coord.x + coord.y * canvas.width) * 4;
 }
 
