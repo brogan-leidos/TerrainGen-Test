@@ -35,7 +35,7 @@ async function generateMap(seed) {
   }
   var start = Date.now();
   var times = new Array();
-  times.push(["Initialize:", Date.now()]);
+  times.push(["Start:", Date.now()]);
   var blendAmount = parseInt(document.getElementById("blendAmount").value);
   
   canvas = document.getElementsByTagName('canvas')[0];
@@ -62,7 +62,7 @@ async function generateMap(seed) {
     resolve(generateNoise(seed, scale));
   });
   
-  times.push(["Generate Noise:", Date.now()]);
+  times.push(["Initialize:", Date.now()]);
   
   var avgNoise;
   if (useAsync) {
@@ -74,20 +74,21 @@ async function generateMap(seed) {
     avgNoise = diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel);
   }
   
-  times.push(["Coloring:", Date.now()]);
+  times.push(["Generate Noise:", Date.now()]);
 
   imageData = colorNoise(avgNoise, imageData, fuzz, seaLevel);  
+  times.push(["Coloring:", Date.now()]);
+
   
   if (blendAmount != 0) {
-    times.push(["Blur:", Date.now()]);
     data = boxBlur(data, blendAmount);
+    times.push(["Blur:", Date.now()]);
   }
     
-  times.push(["Render:", Date.now()]);
+  
 
   ctx.putImageData(image, 0, 0);
-  
-  times.push(["End:", Date.now()]);
+  times.push(["Render:", Date.now()]);
   var logStr = "";
   for (var i=1; i < times.length; i++) {    
     logStr += `${times[i][0]} ${times[i][1] - times[i-1][1]}ms elapsed (${times[i][1] - start} total)`;
