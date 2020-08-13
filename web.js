@@ -68,7 +68,8 @@ async function generateMap() {
 
   var image = ctx.createImageData(settings.canvas.width, settings.canvas.height);
   var imageData = image.data;
-
+  
+  settings.blendRadius = document.getElementById("blendAmount").value;
   settings.scale = document.getElementById("scale").value;
   settings.fuzz = document.getElementById("fuzz").value;
   settings.seaLevel = document.getElementById("heightRange").value;
