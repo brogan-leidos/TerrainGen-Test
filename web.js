@@ -46,14 +46,18 @@ function firstRun() {
   settings.canvas.height = 740;
   
   settings.noise2 = new Promise((resolve, reject) => {
-      resolve(generateNoise(settings, 1));
+      resolve(callGenerateNoise(settings, 1));
     });
 
   settings.noise1 = new Promise((resolve, reject) => {
-      resolve(generateNoise(settings));
+      resolve(callGenerateNoise(settings));
     });
   
   generateMap(settings);
+}
+
+function callGenerateNoise(settings, add) {
+  generateNoise(settings, add);
 }
 
 async function generateMap(settings) {
