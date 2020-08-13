@@ -95,8 +95,8 @@ async function generateMap(seed) {
   }
   
   times.push(["End:", Date.now()]);
-  for (let entry in times) {    
-    console.log(entry[0] + (entry[1] - start) + ' ms');
+  for (var i=0 i < times.length; i++) {    
+    console.log(times[i][0] + (times[i][1] - start) + ' ms');
   }
   
   ctx.putImageData(image, 0, 0);
