@@ -1,9 +1,5 @@
 import Noise from './perlin.js'
 
-
-var canvas = null;
-var seed = 0;
-
 class SettingObject {
   constructor() {
     this.seed = 0;
