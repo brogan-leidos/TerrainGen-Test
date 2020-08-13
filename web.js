@@ -30,7 +30,7 @@ function firstRun() {
   generateMap();
 }
 
-function generateMap() {
+async function generateMap() {
   if (document.getElementById("newSeedCheck").checked) {
     seed = Math.random();
   }
