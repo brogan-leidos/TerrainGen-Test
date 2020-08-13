@@ -50,7 +50,7 @@ function firstRun() {
     });
 
   settings.noise1 = new Promise((resolve, reject) => {
-      resolve(callGenerateNoise(settings));
+      resolve(generateNoise(settings));
     });
   
   generateMap(settings);
@@ -84,7 +84,6 @@ async function generateMap(settings) {
   
   var avgNoise;
   if (settings.useAsync) {    
-    times.push(["Created Promises:", Date.now()]);
     const noiseResponses = await Promise.all([settings.noise1, settings.noise2]);  
     avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], settings.randomDiffuse, settings.seaLevel);
   }
