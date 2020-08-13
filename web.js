@@ -65,11 +65,11 @@ async function generateMap(seed) {
 //   });
   
   var noise2 = new Promise((resolve, reject) => {
-    resolve(generateNoise(seed+1));
+    resolve(generateNoise(seed+1, scale));
   });
   
   var noise1 = new Promise((resolve, reject) => {
-    resolve(generateNoise(seed));
+    resolve(generateNoise(seed, scale));
   });
   
   var avgNoise;
@@ -78,7 +78,7 @@ async function generateMap(seed) {
     avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], randomDiffuse, seaLevel);
   }
   else {
-    noise1 = generateNoise(seed); noise2 = generateNoise(seed+1);
+    noise1 = generateNoise(seed, scale); noise2 = generateNoise(seed+1, scale);
     avgNoise = diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel);
   }
   
