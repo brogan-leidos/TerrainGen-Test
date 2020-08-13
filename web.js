@@ -90,7 +90,7 @@ async function generateMap(seed) {
   imageData = colorNoise(avgNoise, imageData, fuzz, seaLevel);  
   
   if (blendAmount != 0) {
-    var times.push(["Blur:", Date.now()]);
+    times.push(["Blur:", Date.now()]);
     data = boxBlur(data, blendAmount);
   }
   
