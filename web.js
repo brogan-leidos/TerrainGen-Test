@@ -58,7 +58,7 @@ async function generateMap(seed) {
   });
   
   var noise2 = new Promise((resolve, reject) => {
-    if (true) {resolve(generateNoise(seed)); }
+    if (true) {resolve(generateNoise(seed+1)); }
     else { reject(err); }
   });
   
