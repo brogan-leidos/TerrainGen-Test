@@ -76,7 +76,7 @@ async function generateMap(seed) {
   
   times.push(["Generate Noise:", Date.now()]);
 
-  imageData = colorNoise(avgNoise, imageData, fuzz, seaLevel);  
+  imageData = colorNoise(avgNoise, imageData, fuzz, seaLevel, isHeightMap);  
   times.push(["Coloring:", Date.now()]);
 
   
@@ -113,7 +113,7 @@ function generateNoise(seed, scale) {
   return noiseData;
 }
 
-function colorNoise(avgNoise, data, fuzz, seaLevel) {
+function colorNoise(avgNoise, data, fuzz, seaLevel, isHeightMap) {
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) { 
       var value = avgNoise[x][y];
@@ -121,27 +121,27 @@ function colorNoise(avgNoise, data, fuzz, seaLevel) {
       var color = [];
       
       var borderNoise = Math.floor(Math.random() * fuzz);
-      
-      if (value < (seaLevel / 2) - borderNoise) {
-        color = colorDeepWater(cell);
-      }      
-      else if (value < seaLevel - borderNoise) {
-        color = colorWater(cell);      
-      }
-      else if (value < (seaLevel * 2) - borderNoise) {
-        color = colorLand(cell);
-      }
-      else if (value < (seaLevel * 3) - borderNoise) {
-        color = colorForest(cell);
-      }
-      else {
-        color = colorMtn(cell);
-      }
-      
       if (isHeightMap) {
         color = colorHeight(value);
+      } 
+      else {
+        if (value < (seaLevel / 2) - borderNoise) {
+          color = colorDeepWater(cell);
+        }      
+        else if (value < seaLevel - borderNoise) {
+          color = colorWater(cell);      
+        }
+        else if (value < (seaLevel * 2) - borderNoise) {
+          color = colorLand(cell);
+        }
+        else if (value < (seaLevel * 3) - borderNoise) {
+          color = colorForest(cell);
+        }
+        else {
+          color = colorMtn(cell);
+        }
       }
-      
+
       data[cell] = color[0]
       data[cell+1] = color[1]
       data[cell+2] = color[2]
@@ -149,8 +149,7 @@ function colorNoise(avgNoise, data, fuzz, seaLevel) {
       
     }
   }
-  return data;
-  
+  return data;  
 }
 
 function colorWater(cell) {
