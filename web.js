@@ -33,8 +33,9 @@ async function generateMap(seed) {
   if (document.getElementById("newSeedCheck").checked) {
     seed = Math.random();
   }
-    
   var start = Date.now();
+  var times = [];
+  var times.push(["Initialize:", Date.now()]);
   var blendAmount = parseInt(document.getElementById("blendAmount").value);
   
   canvas = document.getElementsByTagName('canvas')[0];
@@ -72,6 +73,8 @@ async function generateMap(seed) {
     resolve(generateNoise(seed, scale));
   });
   
+  var times.push(["Generate Noise:", Date.now()]);
+  
   var avgNoise;
   if (useAsync) {
     const noiseResponses = await Promise.all([noise1, noise2]);  
@@ -82,14 +85,19 @@ async function generateMap(seed) {
     avgNoise = diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel);
   }
   
+  var times.push(["Coloring:", Date.now()]);
+
   imageData = colorNoise(avgNoise, imageData, fuzz, seaLevel);  
   
   if (blendAmount != 0) {
+    var times.push(["Blur:", Date.now()]);
     data = boxBlur(data, blendAmount);
   }
   
-  var end = Date.now();
-  console.log('Rendered in ' + (end - start) + ' ms');
+  var times.push(["End:", Date.now()]);
+  for (let entry in times) {    
+    console.log(entry[0] + (entry[1] - start) + ' ms');
+  }
   
   ctx.putImageData(image, 0, 0);
 }
