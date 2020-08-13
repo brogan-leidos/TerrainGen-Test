@@ -20,4 +20,4 @@ self.addEventListener('message', (e) => {
   
   
   self.postMessage(noiseData);
-}
+});
