@@ -90,7 +90,7 @@ async function generateMap(seed) {
   times.push(["End:", Date.now()]);
   var logStr = "";
   for (var i=1; i < times.length; i++) {    
-    logStr += `${times[i][0]} ${times[i][1] - times[i-1][1]}ms elapsed (times[i][1] - start total)`);
+    logStr += `${times[i][0]} ${times[i][1] - times[i-1][1]}ms elapsed (${times[i][1] - start} total)`);
     logStr += "\n";
   }
   console.log(logStr);
