@@ -6,15 +6,15 @@ var seed = 0;
 
 export default () => {
   document.getElementById("genButton").addEventListener('click', () => {
-    generateMap();
+    generateMap(seed);
   });
 
   document.getElementById("heightRange").oninput = function() {
-    generateMap();
+    generateMap(seed);
   }
   
   document.getElementById("randomDiffuse").oninput = () => {
-    generateMap();
+    generateMap(seed);
   };
   
   firstRun();
@@ -27,10 +27,10 @@ function firstRun() {
   document.getElementById("heightRange").value = 70;
   document.getElementById("randomDiffuse").value = 1;
 
-  generateMap();
+  generateMap(seed);
 }
 
-async function generateMap() {
+async function generateMap(seed) {
   if (document.getElementById("newSeedCheck").checked) {
     seed = Math.random();
   }
