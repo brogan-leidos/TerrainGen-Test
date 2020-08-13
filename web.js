@@ -78,7 +78,7 @@ async function generateMap() {
   
   var avgNoise = diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel);
   
-  imageData = colorNoise(avgNoise, imageData, canvas);  
+  imageData = colorNoise(avgNoise, imageData, canvas, seaLevel);  
   
   if (blendAmount != 0) {
     data = boxBlur(data, blendAmount);
@@ -107,7 +107,7 @@ function generateNoise(seed= -1) {
   return noiseData;
 }
 
-function colorNoise(avgNoise, data, canvas) {
+function colorNoise(avgNoise, data, canvas, seaLevel) {
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) { 
       var value = avgNoise[x][y];
