@@ -115,7 +115,7 @@ function generateNoise(incomingSettings, seedAdd=0) {
   
   var settings = incomingSettings;
   var noise = new Noise();
-  noise.seed(settings.seed + (seedAdd * 999));  
+  noise.seed(settings.seed + (seedAdd * .01));  
 
   var noiseData = new Array();  
   for (var x = 0; x < settings.canvas.width; x++) {
