@@ -96,8 +96,8 @@ async function generateMap(settings) {
   times.push(["Coloring:", Date.now()]);
 
   
-  if (blendAmount != 0) {
-    imageData = boxBlur(imageData, blendAmount, settings.canvas);
+  if (settings.blendAmount != 0) {
+    imageData = boxBlur(imageData, settings.blendAmount, settings.canvas);
     times.push(["Blur:", Date.now()]);
   }
     
