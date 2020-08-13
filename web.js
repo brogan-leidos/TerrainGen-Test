@@ -51,24 +51,36 @@ async function generateMap(seed) {
   var seaLevel = document.getElementById("heightRange").value;
   var isHeightMap = document.getElementById("isHeightMap").checked;
   var randomDiffuse = document.getElementById("randomDiffuse").value;
+  var useAsync = document.getElementById("useAsync").checked;
+
   
-  var noise1 = new Promise((resolve, reject) => {
-    if (true) {resolve(generateNoise(seed, scale)); }
-    else { reject(err); }
-  });
-  
-  var noise2 = new Promise((resolve, reject) => {
-    if (true) {resolve(generateNoise(seed+1, scale)); }
-    else { reject(err); }
-  });
-  
-//   var noise2 = new Promise((resolve, reject) => {
-//     resolve(generateNoise(seed+1));
+//   var noise1 = new Promise((resolve, reject) => {
+//     if (true) {resolve(generateNoise(seed, scale)); }
+//     else { reject(err); }
 //   });
   
-  const noiseResponses = await Promise.all([noise1, noise2]);
+//   var noise2 = new Promise((resolve, reject) => {
+//     if (true) {resolve(generateNoise(seed+1, scale)); }
+//     else { reject(err); }
+//   });
   
-  var avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], randomDiffuse, seaLevel);
+  var noise2 = new Promise((resolve, reject) => {
+    resolve(generateNoise(seed+1));
+  });
+  
+  var noise1 = new Promise((resolve, reject) => {
+    resolve(generateNoise(seed));
+  });
+  
+  var avgNoise;
+  if (useAsync) {
+    const noiseResponses = await Promise.all([noise1, noise2]);  
+    avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], randomDiffuse, seaLevel);
+  }
+  else {
+    noise1 = generateNoise(seed); noise2 = generateNoise(seed+1);
+    avgNoise = diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel);
+  }
   
   imageData = colorNoise(avgNoise, imageData, fuzz, seaLevel);  
   
