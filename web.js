@@ -30,7 +30,7 @@ function firstRun() {
   generateMap();
 }
 
-async function generateMap() {
+function generateMap() {
   if (document.getElementById("newSeedCheck").checked) {
     seed = Math.random();
   }
@@ -74,12 +74,18 @@ async function generateMap() {
 
   
   var noise1 = new Promise((resolve, reject) => {
-    resolve(generateNoise());
+    if (true) {resolve(generateNoise()); }
+    else { reject(err); }
   });
   
   var noise2 = new Promise((resolve, reject) => {
-    resolve(generateNoise(seed+1));
+    if (true) {resolve(generateNoise()); }
+    else { reject(err); }
   });
+  
+//   var noise2 = new Promise((resolve, reject) => {
+//     resolve(generateNoise(seed+1));
+//   });
   
   const noiseResponses = await Promise.all([noise1, noise2]);
   
