@@ -185,6 +185,10 @@ function colorForest(value) {
   var colorNoise = Math.floor(Math.random() * 40);
   return [0+colorNoise, 150-colorNoise, 0+colorNoise/10, 255];
 }
+function colorGrassland(value) {
+  var colorNoise = Math.floor(Math.random() * 10);
+  return [150+colorNoise, 200-colorNoise, 100+colorNoise, 255];
+}
 
 function colorMtn(value) {
   var colorNoise = Math.floor(Math.random() * 20);
