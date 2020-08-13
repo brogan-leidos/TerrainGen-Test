@@ -46,11 +46,11 @@ function firstRun() {
   settings.canvas.height = 740;
   
   settings.noise2 = new Promise((resolve, reject) => {
-      resolve(generateNoise(settings.seed+1, settings.scale, settings.canvas));
+      resolve(generateNoise(settings, 1));
     });
 
   settings.noise1 = new Promise((resolve, reject) => {
-      resolve(generateNoise(settings.seed, settings.scale, settings.canvas));
+      resolve(generateNoise(settings));
     });
   
   generateMap(settings);
@@ -111,15 +111,15 @@ async function generateMap(settings) {
   console.log(logStr);
 }
 
-function generateNoise(seed, scale, canvas) {
+function generateNoise(settings, seedAdd=0) {
   var noise = new Noise();
-  noise.seed(seed);  
+  noise.seed(settings.seed + seedAdd);  
 
   var noiseData = new Array();  
-  for (var x = 0; x < canvas.width; x++) {
+  for (var x = 0; x < settings.canvas.width; x++) {
     noiseData.push(new Array());
-    for (var y = 0; y < canvas.height; y++) {
-      var value = Math.abs(noise.perlin2(x / scale, y / scale));
+    for (var y = 0; y < settings.canvas.height; y++) {
+      var value = Math.abs(noise.perlin2(x / settings.scale, y / settings.scale));
       value *= 256;
       noiseData[x].push(value);
     }
