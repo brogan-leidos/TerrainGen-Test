@@ -110,7 +110,10 @@ async function generateMap() {
   console.log(logStr);
 }
 
-function generateNoise(settings, seedAdd=0) {
+function generateNoise(incomingSettings, seedAdd=0) {
+  var seed = settings.seed;
+  
+  var settings = incomingSettings;
   var noise = new Noise();
   noise.seed(settings.seed + seedAdd);  
 
