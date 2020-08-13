@@ -73,10 +73,17 @@ async function generateMap() {
 //   noiseWorker2.postMessage([seed+1, canvas.width, canvas.height, scale]);
 
   
-  noise1 = generateNoise();
-  noise2 = generateNoise(seed+1);
+  var noise1 = new Promise((resolve, reject) => {
+    resolve(generateNoise());
+  });
   
-  var avgNoise = diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel);
+  var noise2 = new Promise((resolve, reject) => {
+    resolve(generateNoise(seed+1));
+  });
+  
+  const noiseResponses = await Promise.all([noise1, noise2]);
+  
+  var avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], randomDiffuse, fuzz, seaLevel);
   
   imageData = colorNoise(avgNoise, imageData, canvas, seaLevel);  
   
@@ -107,7 +114,7 @@ function generateNoise(seed= -1) {
   return noiseData;
 }
 
-function colorNoise(avgNoise, data, canvas, seaLevel) {
+function colorNoise(avgNoise, data, canvas, fuzz, seaLevel) {
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) { 
       var value = avgNoise[x][y];
