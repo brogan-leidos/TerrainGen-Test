@@ -30,7 +30,7 @@ function firstRun() {
   generateNoise();
 }
 
-function generateNoise() {
+async function generateNoise() {
   if (document.getElementById("newSeedCheck").checked) {
     seed = Math.random();
   }
@@ -47,7 +47,7 @@ function generateNoise() {
   var ctx = canvas.getContext('2d');
 
   var image = ctx.createImageData(canvas.width, canvas.height);
-  var data = image.data;
+  var imageData = image.data;
 
   var scale = document.getElementById("scale").value;
   var fuzz = document.getElementById("fuzz").value;
@@ -58,27 +58,61 @@ function generateNoise() {
   var noise1 = new Array();
   var noise2 = new Array();
   
-  for (var x = 0; x < canvas.width; x++) {
-    noise1.push(new Array());
-    for (var y = 0; y < canvas.height; y++) {
-      var value = Math.abs(noise.perlin2(x / scale, y / scale));
-      value *= 256;
-      noise1[x].push(value);
-    }
-  }
+  var noiseWorker = new Worker('MakeNoise.js');
+  var noiseWorker2 = new Worker('MakeNoise.js');
+
+  noiseWorker.addEventListener('message', (e) => {
+    noise1 = e.data;
+  });
+  
+  noiseWorker2.addEventListener('message', (e) => {
+    noise2 = e.data;
+  });
+  
+  noiseWorker.postMessage([seed, canvas.width, canvas.height, scale]);
+  noiseWorker2.postMessage([seed+1, canvas.width, canvas.height, scale]);
+
+  
+  
+//   for (var x = 0; x < canvas.width; x++) {
+//     noise1.push(new Array());
+//     for (var y = 0; y < canvas.height; y++) {
+//       var value = Math.abs(noise.perlin2(x / scale, y / scale));
+//       value *= 256;
+//       noise1[x].push(value);
+//     }
+//   }
     
-  noise.seed(seed+1);
-  for (var x = 0; x < canvas.width; x++) {
-    noise2.push(new Array());
-    for (var y = 0; y < canvas.height; y++) {
-      var value = Math.abs(noise.perlin2(x / scale, y / scale));
-      value *= 256;
-      noise2[x].push(value);
-    }
-  }
+//   noise.seed(seed+1);
+//   for (var x = 0; x < canvas.width; x++) {
+//     noise2.push(new Array());
+//     for (var y = 0; y < canvas.height; y++) {
+//       var value = Math.abs(noise.perlin2(x / scale, y / scale));
+//       value *= 256;
+//       noise2[x].push(value);
+//     }
+//   }
   
   var avgNoise = diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel);
   
+  imageData = colorNoise(avgNoise, imageData, canvas);  
+  
+  if (blendAmount != 0) {
+    data = boxBlur(data, blendAmount);
+  }
+  
+  var end = Date.now();
+  console.log('Rendered in ' + (end - start) + ' ms');
+  
+  ctx.putImageData(image, 0, 0);
+}
+
+async function createNoiseSheet() {
+  noise1 = await 
+  
+}
+
+function colorNoise(avgNoise, data, canvas) {
   for (var x = 0; x < canvas.width; x++) {
     for (var y = 0; y < canvas.height; y++) { 
       var value = avgNoise[x][y];
@@ -114,15 +148,8 @@ function generateNoise() {
       
     }
   }
+  return data;
   
-  if (blendAmount != 0) {
-    data = boxBlur(data, blendAmount);
-  }
-  
-  var end = Date.now();
-  console.log('Rendered in ' + (end - start) + ' ms');
-  
-  ctx.putImageData(image, 0, 0);
 }
 
 function colorWater(cell) {
@@ -159,11 +186,9 @@ function diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel) {
   for(var i=0; i < noise1.length; i++) {
     retNoise.push(new Array());
     for(var j=0; j < noise1[i].length; j++) {
-      var amountToChange = noise2[i][j] / randomDiffuse;
-      if (amountToChange < seaLevel) {
-        amountToChange *= -1;
-      }
-      var averagedValue = noise1[i][j] + amountToChange;
+      var amountToChange = noise2[i][j] - noise1[i][j];
+      var changeDiff = amountToChange / randomDiffuse;
+      var averagedValue = noise1[i][j] + changeDiff;
       
       retNoise[i].push(averagedValue);
     }
