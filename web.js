@@ -140,19 +140,19 @@ function colorNoise(avgNoise, data, fuzz, seaLevel, isHeightMap, canvas) {
       } 
       else {
         if (value < (seaLevel / 2) - borderNoise) {
-          color = colorDeepWater(cell);
+          color = colorDeepWater(value);
         }      
         else if (value < seaLevel - borderNoise) {
-          color = colorWater(cell);      
+          color = colorWater(value);      
         }
         else if (value < (seaLevel * 2) - borderNoise) {
-          color = colorLand(cell);
+          color = colorLand(value);
         }
         else if (value < (seaLevel * 3) - borderNoise) {
-          color = colorForest(cell);
+          color = colorForest(value);
         }
         else {
-          color = colorMtn(cell);
+          color = colorMtn(value);
         }
       }
 
@@ -166,27 +166,27 @@ function colorNoise(avgNoise, data, fuzz, seaLevel, isHeightMap, canvas) {
   return data;  
 }
 
-function colorWater(cell) {
-  var colorNoise = Math.floor(Math.random() * 50);
+function colorWater(value) {
+  var colorNoise = Math.floor(Math.random() * (50-value));
   return [0, 0+colorNoise, 255-colorNoise, 255];
 }
 
-function colorDeepWater(cell) {
-  var colorNoise = Math.floor(Math.random() * 50);
+function colorDeepWater(value) {
+  var colorNoise = Math.floor(Math.random() * (50-value));
   return [0, 0+colorNoise/4, 200-colorNoise*2, 255];
 }
 
-function colorLand(cell) {
+function colorLand(value) {
   var colorNoise = Math.floor(Math.random() * 20);
   return [200-colorNoise, 200-colorNoise, 0, 255];
 }
 
-function colorForest(cell) {
+function colorForest(value) {
   var colorNoise = Math.floor(Math.random() * 40);
   return [0+colorNoise, 150-colorNoise, 0+colorNoise/10, 255];
 }
 
-function colorMtn(cell) {
+function colorMtn(value) {
   var colorNoise = Math.floor(Math.random() * 20);
   return [230-colorNoise, 230-colorNoise, 255, 255];
 }
