@@ -85,8 +85,8 @@ async function generateMap(settings) {
     avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], settings.randomDiffuse, settings.seaLevel);
   }
   else {
-    var noise1 = generateNoise(settings.seed, settings.scale, settings.canvas);
-    var noise2 = generateNoise(settings.seed+1, settings.scale, settings.canvas);
+    var noise1 = generateNoise(settings);
+    var noise2 = generateNoise(settings, 1);
     avgNoise = diffuseRandomMap(noise1, noise2, settings.randomDiffuse, settings.seaLevel);
   }
   
