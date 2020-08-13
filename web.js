@@ -81,12 +81,10 @@ async function generateMap(seed) {
 
   
   if (blendAmount != 0) {
-    data = boxBlur(data, blendAmount);
+    imageData = boxBlur(imageData, blendAmount);
     times.push(["Blur:", Date.now()]);
   }
     
-  
-
   ctx.putImageData(image, 0, 0);
   times.push(["Render:", Date.now()]);
   var logStr = "";
