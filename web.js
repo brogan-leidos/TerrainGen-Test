@@ -54,18 +54,17 @@ async function generateMap(seed) {
   var randomDiffuse = document.getElementById("randomDiffuse").value;
   var useAsync = document.getElementById("useAsync").checked;
   
-  var noise2 = new Promise((resolve, reject) => {
-    resolve(generateNoise(seed+1, scale));
-  });
-  
-  var noise1 = new Promise((resolve, reject) => {
-    resolve(generateNoise(seed, scale));
-  });
-  
   times.push(["Initialize:", Date.now()]);
   
   var avgNoise;
   if (useAsync) {
+    var noise2 = new Promise((resolve, reject) => {
+      resolve(generateNoise(seed+1, scale));
+    });
+
+    var noise1 = new Promise((resolve, reject) => {
+      resolve(generateNoise(seed, scale));
+    });
     const noiseResponses = await Promise.all([noise1, noise2]);  
     avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], randomDiffuse, seaLevel);
   }
