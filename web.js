@@ -254,7 +254,7 @@ function averagePixels(pixelCoordGroup, data) {
     var blueRowTotal = 0;
     
     for (var unit=0; unit < pixelCoordGroup[group].length; unit++) {
-      var scanCell = getCellByCoord(pixelCoordGroup[group][unit]);
+      var scanCell = getCellByCoord(pixelCoordGroup[group][unit], settings.canvas);
       redRowTotal += data[scanCell];
       greenRowTotal += data[scanCell+1];
       blueRowTotal += data[scanCell+2];
