@@ -35,7 +35,7 @@ async function generateMap(seed) {
   }
   var start = Date.now();
   var times = new Array();
-  var times.push(["Initialize:", Date.now()]);
+  times.push(["Initialize:", Date.now()]);
   var blendAmount = parseInt(document.getElementById("blendAmount").value);
   
   canvas = document.getElementsByTagName('canvas')[0];
@@ -73,7 +73,7 @@ async function generateMap(seed) {
     resolve(generateNoise(seed, scale));
   });
   
-  var times.push(["Generate Noise:", Date.now()]);
+  times.push(["Generate Noise:", Date.now()]);
   
   var avgNoise;
   if (useAsync) {
@@ -85,7 +85,7 @@ async function generateMap(seed) {
     avgNoise = diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel);
   }
   
-  var times.push(["Coloring:", Date.now()]);
+  times.push(["Coloring:", Date.now()]);
 
   imageData = colorNoise(avgNoise, imageData, fuzz, seaLevel);  
   
@@ -94,7 +94,7 @@ async function generateMap(seed) {
     data = boxBlur(data, blendAmount);
   }
   
-  var times.push(["End:", Date.now()]);
+  times.push(["End:", Date.now()]);
   for (let entry in times) {    
     console.log(entry[0] + (entry[1] - start) + ' ms');
   }
