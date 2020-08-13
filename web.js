@@ -34,7 +34,7 @@ async function generateMap(seed) {
     seed = Math.random();
   }
   var start = Date.now();
-  var times = [];
+  var times = new Array();
   var times.push(["Initialize:", Date.now()]);
   var blendAmount = parseInt(document.getElementById("blendAmount").value);
   
