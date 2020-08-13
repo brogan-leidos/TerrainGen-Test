@@ -1,6 +1,5 @@
 import Noise from './perlin.js'
 
-var noise = new Noise();
 var canvas = null;
 var seed = 0;
 
@@ -107,7 +106,8 @@ function generateNoise(seed= -1) {
   if (seed != -1) {
     noise.seed(seed);
   }
-  
+  var noise = new Noise();
+
   var noiseData = new Array();  
   for (var x = 0; x < canvas.width; x++) {
     noiseData.push(new Array());
