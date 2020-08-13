@@ -53,12 +53,12 @@ async function generateMap(seed) {
   var randomDiffuse = document.getElementById("randomDiffuse").value;
   
   var noise1 = new Promise((resolve, reject) => {
-    if (true) {resolve(generateNoise(seed)); }
+    if (true) {resolve(generateNoise(seed, scale)); }
     else { reject(err); }
   });
   
   var noise2 = new Promise((resolve, reject) => {
-    if (true) {resolve(generateNoise(seed+1)); }
+    if (true) {resolve(generateNoise(seed+1, scale)); }
     else { reject(err); }
   });
   
@@ -82,7 +82,7 @@ async function generateMap(seed) {
   ctx.putImageData(image, 0, 0);
 }
 
-function generateNoise(seed) {
+function generateNoise(seed, scale) {
   var noise = new Noise();
   noise.seed(seed);  
 
