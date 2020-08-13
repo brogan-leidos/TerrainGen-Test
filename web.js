@@ -95,6 +95,9 @@ async function generateMap() {
   }
   else {
     var noise1 = generateNoise();
+      var noise1 = generateNoise();
+      var noise1 = generateNoise();
+      var noise1 = generateNoise();
     var noise2 = generateNoise(1);
     avgNoise = diffuseRandomMap(noise1, noise2, settings.randomDiffuse, settings.seaLevel);
   }
