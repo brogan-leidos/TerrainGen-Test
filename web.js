@@ -173,7 +173,7 @@ function colorWater(cell) {
 
 function colorDeepWater(cell) {
   var colorNoise = Math.floor(Math.random() * 50);
-  return [0, 0+colorNoise/2, 255-colorNoise*2, 255];
+  return [0, 0+colorNoise/4, 200-colorNoise*2, 255];
 }
 
 function colorLand(cell) {
