@@ -20,15 +20,15 @@ var settings = new SettingObject();
 
 export default () => {
   document.getElementById("genButton").addEventListener('click', () => {
-    generateMap(settings);
+    generateMap();
   });
 
   document.getElementById("heightRange").oninput = function() {
-    generateMap(settings);
+    generateMap();
   }
   
   document.getElementById("randomDiffuse").oninput = () => {
-    generateMap(settings);
+    generateMap();
   };
   
   firstRun();
@@ -46,21 +46,17 @@ function firstRun() {
   settings.canvas.height = 740;
   
   settings.noise2 = new Promise((resolve, reject) => {
-      resolve(callGenerateNoise(settings, 1));
+      resolve(generateNoise(settings, 1));
     });
 
   settings.noise1 = new Promise((resolve, reject) => {
       resolve(generateNoise(settings));
     });
   
-  generateMap(settings);
+  generateMap();
 }
 
-function callGenerateNoise(settings, add) {
-  generateNoise(settings, add);
-}
-
-async function generateMap(settings) {
+async function generateMap() {
   if (document.getElementById("newSeedCheck").checked) {
     settings.seed = Math.random();
   }
