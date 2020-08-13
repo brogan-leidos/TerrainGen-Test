@@ -41,6 +41,10 @@ function firstRun() {
   settings.seaLevel = document.getElementById("heightRange").value = 70;
   settings.randomDiffuse = document.getElementById("randomDiffuse").value = 1;
 
+  settings.canvas = document.getElementsByTagName('canvas')[0];
+  settings.canvas.width = 1024;
+  settings.canvas.height = 740;
+  
   settings.noise2 = new Promise((resolve, reject) => {
       resolve(generateNoise(settings.seed+1, settings.scale, settings.canvas));
     });
@@ -59,11 +63,6 @@ async function generateMap(settings) {
   var start = Date.now();
   var times = new Array();
   times.push(["Start:", Date.now()]);
-  var blendAmount = parseInt(document.getElementById("blendAmount").value);
-  
-  settings.canvas = document.getElementsByTagName('canvas')[0];
-  settings.canvas.width = 1024;
-  settings.canvas.height = 740;
 
   var ctx = settings.canvas.getContext('2d');
 
