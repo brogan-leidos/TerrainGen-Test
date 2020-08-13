@@ -43,15 +43,7 @@ function firstRun() {
 
   settings.canvas = document.getElementsByTagName('canvas')[0];
   settings.canvas.width = 1024;
-  settings.canvas.height = 740;
-  
-  settings.noise2 = new Promise((resolve, reject) => {
-      resolve(generateNoise(settings, 1));
-    });
-
-  settings.noise1 = new Promise((resolve, reject) => {
-      resolve(generateNoise(settings));
-    });
+  settings.canvas.height = 740;  
   
   generateMap();
 }
@@ -80,13 +72,20 @@ async function generateMap() {
   times.push(["Initialize:", Date.now()]);
   
   var avgNoise;
-  if (settings.useAsync) {    
-    const noiseResponses = await Promise.all([settings.noise1, settings.noise2]);  
+  if (settings.useAsync) {
+    var noise1 = new Promise((resolve, reject) => {
+      resolve(generateNoise());
+    });
+    
+    var noise2 = new Promise((resolve, reject) => {
+      resolve(generateNoise(1));
+    });
+    const noiseResponses = await Promise.all([noise1, noise2]);  
     avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], settings.randomDiffuse, settings.seaLevel);
   }
   else {
-    var noise1 = generateNoise(settings);
-    var noise2 = generateNoise(settings, 1);
+    var noise1 = generateNoise();
+    var noise2 = generateNoise(1);
     avgNoise = diffuseRandomMap(noise1, noise2, settings.randomDiffuse, settings.seaLevel);
   }
   
@@ -111,10 +110,7 @@ async function generateMap() {
   console.log(logStr);
 }
 
-function generateNoise(incomingSettings, seedAdd=0) {
-//   var seed = settings.seed;
-  
-  var settings = incomingSettings;
+function generateNoise(seedAdd=0) { 
   var noise = new Noise();
   noise.seed(settings.seed + (seedAdd * .01));  
 
