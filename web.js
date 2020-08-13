@@ -95,7 +95,7 @@ async function generateMap(seed) {
   }
   
   times.push(["End:", Date.now()]);
-  for (var i=0 i < times.length; i++) {    
+  for (var i=0; i < times.length; i++) {    
     console.log(times[i][0] + (times[i][1] - start) + ' ms');
   }
   
