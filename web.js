@@ -170,7 +170,7 @@ function colorNoise(avgNoise, data, fuzz, seaLevel, isHeightMap, canvas) {
 }
 
 function colorWater(value) {
-  var colorNoise = Math.floor(Math.random() * (value/2));
+  var colorNoise = Math.floor(Math.random() * 30);
   return [20, 0+colorNoise/2, 230-colorNoise, 255];
 }
 
