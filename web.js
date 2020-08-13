@@ -65,6 +65,7 @@ async function generateMap(seed) {
     var noise1 = new Promise((resolve, reject) => {
       resolve(generateNoise(seed, scale));
     });
+    times.push(["Created Promises:", Date.now()]);
     const noiseResponses = await Promise.all([noise1, noise2]);  
     avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], randomDiffuse, seaLevel);
   }
@@ -73,7 +74,7 @@ async function generateMap(seed) {
     avgNoise = diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel);
   }
   
-  times.push(["Generate Noise:", Date.now()]);
+  times.push(["Generated Noise:", Date.now()]);
 
   imageData = colorNoise(avgNoise, imageData, fuzz, seaLevel, isHeightMap);  
   times.push(["Coloring:", Date.now()]);
