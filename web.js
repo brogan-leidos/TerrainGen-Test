@@ -177,7 +177,7 @@ function colorNoise(avgNoise, data, fuzz, seaLevel, isHeightMap, canvas) {
         else if (value < (seaLevel * 2.5) - borderNoise) {
           color = colorGrassland(value);
         }
-        else if (value < (seaLevel * 3.5) - borderNoise) {
+        else if (value < (seaLevel * 4) - borderNoise) {
           color = colorForest(value);
         }
         else {
