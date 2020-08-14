@@ -25,11 +25,11 @@ export default () => {
   });
 
   document.getElementById("heightRange").oninput = function() {
-    generateMap();
+    updateCurrentMap();
   }
   
   document.getElementById("randomDiffuse").oninput = () => {
-    generateMap();
+    updateCurrentMap();
   };
   
   firstRun();
@@ -120,6 +120,18 @@ async function generateMap() {
     logStr += "\n";
   }
   console.log(logStr);
+}
+
+function updateCurrentMap() {
+  initializeSettings();
+  var ctx = settings.canvas.getContext('2d');
+ 
+  var image = ctx.createImageData(settings.canvas.width, settings.canvas.height);
+  var imageData = image.data;
+  
+  imageData = colorNoise(settings.valueMap, imageData, settings.fuzz, settings.seaLevel, settings.isHeightMap, settings.canvas);  
+
+  ctx.putImageData(image, 0, 0);
 }
 
 function initializeSettings() {
