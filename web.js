@@ -69,20 +69,23 @@ async function generateMap() {
   if (settings.useAsync) {
     var noiseResponses = [];
     var numWorkers = 2;
-    var allWorkersDone = (numWorkers) => {
-      var promise = new Promise((resolve, reject) => {                   
+    var allWorkersDone = (numWorkers) => 
+    {
+      var promise = new Promise((resolve, reject) => 
+      {                   
         for (var i=0; i < numWorkers; i++) {
           var newWorker = new Worker("noiseGenWorker.js", { type: "classic" });
-          newWorker.onmessage = (e) => {
+          newWorker.onmessage = (e) => 
+          {
             noiseResponses.push(e.data);
             if (noiseResponses.length == numWorkers) {
               resolve(noiseResponses);
             }
           }
           newWorker.postMessage([i, JSON.stringify(settings), settings.canvas.width, settings.canvas.height]);
-        }
-        return promise;
-      });
+        }       
+      }); 
+      return promise;
     };
     
     
