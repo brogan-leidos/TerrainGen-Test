@@ -29,7 +29,7 @@ export default () => {
   }
   
   document.getElementById("randomDiffuse").oninput = () => {
-    updateCurrentMap();
+    generateMap();
   };
   
   firstRun();
