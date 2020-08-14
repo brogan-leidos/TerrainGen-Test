@@ -63,7 +63,7 @@ async function generateMap() {
   
   initializeSettings();
   
-  times.push(["Initialize:", Date.now()]);
+  logTime("Initialize");
   
   var avgNoise;
   if (settings.useAsync) {
