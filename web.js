@@ -67,7 +67,7 @@ async function generateMap() {
   if (settings.useAsync) {
     var noiseResponses = [];
     var numWorkers = 2;
-    var allWorkersDone = () => {
+    var allWorkersDone = (numWorkers) => {
       return new Promise((resolve) => { 
         if (noiseResponses.length == numWorkers) {
           resolve();
