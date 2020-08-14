@@ -1,8 +1,11 @@
 
 onmessage = function(event) {
-  // Seedadd, settings, noise
+  // Seedadd, scale, w, h
   var seedAdd = event.data[0];
   var settings = JSON.parse(event.data[1]);
+  settings.canvas.width = event.data[2];
+  settings.canvas.height = event.data[3];
+  
   var noise = new Noise();
   noise.seed(settings.seed + (seedAdd * .01));  
 
