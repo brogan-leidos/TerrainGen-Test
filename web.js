@@ -70,25 +70,26 @@ async function generateMap() {
     var noiseResponses = [];
     var numWorkers = 2;
     var allWorkersDone = (numWorkers) => {
-      return new Promise((resolve) => { 
-        if (noiseResponses.length == numWorkers) {
-          resolve();
+      var promise = new Promise((resolve, reject) => {                   
+        for (var i=0; i < numWorkers; i++) {
+          var newWorker = new Worker("noiseGenWorker.js", { type: "classic" });
+          newWorker.onmessage = (e) => {
+            noiseResponses.push(e.data);
+            if (noiseResponses.length == numWorkers) {
+              resolve(noiseResponses);
+            }
+          }
+          newWorker.postMessage([i, JSON.stringify(settings), settings.canvas.width, settings.canvas.height]);
         }
+        return promise;
       });
     };
-    var noise = new Noise();
-    for (var i=0; i < numWorkers; i++) {
-      var newWorker = new Worker("noiseGenWorker.js", { type: "classic" });
-      newWorker.onmessage = (e) => {
-        noiseResponses.push(e.data);
-      }
-      newWorker.postMessage([i, JSON.stringify(settings), settings.canvas.width, settings.canvas.height])
-    }
+    
     
     logTime("Created Workers");
     var x = await allWorkersDone(numWorkers);
     logTime("Workers Done");
-    avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], settings.randomDiffuse, settings.seaLevel);
+    avgNoise = diffuseRandomMap(noiseResponses, settings.randomDiffuse, settings.seaLevel);
   }
   else {
     var noiseGroup = [];
