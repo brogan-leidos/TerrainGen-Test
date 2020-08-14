@@ -1,3 +1,8 @@
+import Noise from './perlin.js'
+
+export default () => {
+  return; 
+}
 
 onmessage = function(event) {
   // Seedadd, settings, noise
