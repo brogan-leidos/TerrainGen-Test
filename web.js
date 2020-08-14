@@ -91,7 +91,7 @@ async function generateMap() {
   }
   else {
     var noiseGroup = [];
-    var numDiffuseMaps = setings.numDiffuseMaps;
+    var numDiffuseMaps = settings.numDiffuseMaps;
     for (var i=0; i < numDiffuseMaps; i++) {
       noiseGroup.push(generateNoise(i));
     }
