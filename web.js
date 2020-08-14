@@ -10,7 +10,9 @@ class SettingObject {
     this.seaLevel = 0;
     this.randomDiffuse = 0;
     this.isHeightMap = false;
-    this.useAsync = false;    
+    this.useAsync = false;
+    
+    this.valueMap = [];
   }
 }
 
@@ -101,9 +103,9 @@ async function generateMap() {
   
   logTime("Generated Noise");
 
+  settings.valueMap = avgNoise;
   imageData = colorNoise(avgNoise, imageData, settings.fuzz, settings.seaLevel, settings.isHeightMap, settings.canvas);  
   logTime("Coloring");
-
   
   if (settings.blendRadius != 0) {
     imageData = boxBlur(imageData, settings.blendRadius, settings.canvas);
