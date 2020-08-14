@@ -1,9 +1,9 @@
 
 onmessage = function(event) {
   // Seedadd, settings, noise
-  var seedAdd = event[0];
-  var settings = event[1];
-  var noise = event[2];
+  var seedAdd = event.data.seedAdd;
+  var settings = event.data.settings;
+  var noise = event.data.noise;
   noise.seed(settings.seed + (seedAdd * .01));  
 
   var noiseData = new Array();  
