@@ -68,7 +68,7 @@ async function generateMap() {
   var avgNoise;
   if (settings.useAsync) {
     var noiseResponses = [];
-    var numWorkers = 2;
+    var numWorkers = settings.numDiffuseMaps;
     var allWorkersDone = (numWorkers) => 
     {
       var promise = new Promise((resolve, reject) => 
@@ -96,8 +96,7 @@ async function generateMap() {
   }
   else {
     var noiseGroup = [];
-    var numDiffuseMaps = settings.numDiffuseMaps;
-    for (var i=0; i < numDiffuseMaps; i++) {
+    for (var i=0; i < settings.numDiffuseMaps; i++) {
       noiseGroup.push(generateNoise(i));
     }
 
