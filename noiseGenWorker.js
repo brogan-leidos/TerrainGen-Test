@@ -1,6 +1,9 @@
-// import Noise from './perlin.js'
-// 
-onmessage = function(seedAdd, settings, noise) {
+
+onmessage = function(event) {
+  // Seedadd, settings, noise
+  var seedAdd = event[0];
+  var settings = event[1];
+  var noise = event[2];
   noise.seed(settings.seed + (seedAdd * .01));  
 
   var noiseData = new Array();  
