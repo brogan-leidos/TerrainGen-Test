@@ -1,5 +1,5 @@
-import * as Noise from './perlin.js'
-// importScripts('perlin.js');
+// import * as Noise from './perlin.js'
+importScripts('perlin.js');
 
 onmessage = function(event) {
   // Seedadd, settings, noise
