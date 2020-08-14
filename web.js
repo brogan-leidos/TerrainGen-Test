@@ -114,15 +114,12 @@ async function generateMap() {
     
   ctx.putImageData(image, 0, 0);
   logTime("Render");
-  var logStr = "";
-  for (var i=1; i < times.length; i++) {    
-    logStr += `${times[i][0]} ${times[i][1] - times[i-1][1]}ms elapsed (${times[i][1] - start} total)`;
-    logStr += "\n";
-  }
-  console.log(logStr);
+  printTotalTime();
 }
 
 function updateCurrentMap() {
+  times = [];
+  logTime("Start");
   initializeSettings();
   var ctx = settings.canvas.getContext('2d');
  
@@ -132,6 +129,8 @@ function updateCurrentMap() {
   imageData = colorNoise(settings.valueMap, imageData, settings.fuzz, settings.seaLevel, settings.isHeightMap, settings.canvas);  
 
   ctx.putImageData(image, 0, 0);
+  logTime("Re-Render");
+  printTotalTime();
 }
 
 function initializeSettings() {
@@ -147,6 +146,15 @@ function initializeSettings() {
 
 function logTime(title) {
   times.push([title + ":", Date.now()]);
+}
+
+function printTotalTime() {
+  var logStr = "";
+  for (var i=1; i < times.length; i++) {    
+    logStr += `${times[i][0]} ${times[i][1] - times[i-1][1]}ms elapsed (${times[i][1] - start} total)`;
+    logStr += "\n";
+  }
+  console.log(logStr);
 }
 
 function generateNoise(seedAdd=0) { 
