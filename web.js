@@ -95,7 +95,7 @@ async function generateMap() {
       noiseGroup.push(generateNoise(i));
     }
 
-    avgNoise = diffuseRandomMap(noiseGroup settings.randomDiffuse, settings.seaLevel);
+    avgNoise = diffuseRandomMap(noiseGroup, settings.randomDiffuse, settings.seaLevel);
   }
   
   logTime("Generated Noise");
