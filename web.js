@@ -54,7 +54,6 @@ async function generateMap() {
   if (document.getElementById("newSeedCheck").checked) {
     settings.seed = Math.random();
   }
-  var start = Date.now();
   times = [];
   logTime("Start");
   var ctx = settings.canvas.getContext('2d');
@@ -150,6 +149,7 @@ function logTime(title) {
 
 function printTotalTime() {
   var logStr = "";
+  var start = times[0][1];
   for (var i=1; i < times.length; i++) {    
     logStr += `${times[i][0]} ${times[i][1] - times[i-1][1]}ms elapsed (${times[i][1] - start} total)`;
     logStr += "\n";
