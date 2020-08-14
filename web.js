@@ -202,7 +202,7 @@ function colorWater(value) {
 
 function colorDeepWater(value) {
   var colorNoise = Math.floor(Math.random() * (50-value));
-  return [0, 0+colorNoise/4, 200-colorNoise*2, 255];
+  return [0, 0, 200-colorNoise*2, 255];
 }
 
 function colorLand(value) {
