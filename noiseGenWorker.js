@@ -1,6 +1,7 @@
 
 onmessage = function(event) {
   // Seedadd, settings, noise
+  event = JSON.parse(event);
   var seedAdd = event[0];
   var settings = event[1];
   var noise = event[2];
