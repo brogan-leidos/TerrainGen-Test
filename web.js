@@ -67,8 +67,25 @@ async function generateMap() {
   
   var avgNoise;
   if (settings.useAsync) {
+    var noiseResponses = [];
+    var numWorkers = 2;
+    var allWorkersDone = () => {
+      return new Promise((resolve) => { 
+        if (noiseResponses.length == numWorkers) {
+          resolve();
+        }
+      });
+    };
+                                     
+    for (var i=0; i < numWorkers; i++) {
+      var newWorker = new Worker("noiseGenWorker.js");
+      newWorker.onmessage = (e) => {
+        noiseResponses.push(e);
+      }
+    }
+    
     logTime("Created Workers");
-    const noiseResponses = await Promise.all([noise1, noise2]);  
+    var x = await allWorkersDone(numWorkers);        
     avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], settings.randomDiffuse, settings.seaLevel);
   }
   else {
