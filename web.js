@@ -76,7 +76,7 @@ async function generateMap() {
     };
     var noise = new Noise();
     for (var i=0; i < numWorkers; i++) {
-      var newWorker = new Worker("noiseGenWorker.js", { type: "module" });
+      var newWorker = new Worker("noiseGenWorker.js", { type: "classic" });
       newWorker.onmessage = (e) => {
         noiseResponses.push(e.data);
       }
