@@ -85,7 +85,8 @@ async function generateMap() {
     }
     
     logTime("Created Workers");
-    var x = await allWorkersDone(numWorkers);        
+    var x = await allWorkersDone(numWorkers);
+    logTime("Workers Done");
     avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], settings.randomDiffuse, settings.seaLevel);
   }
   else {
