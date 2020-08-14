@@ -4,8 +4,6 @@ class SettingObject {
   constructor() {
     this.seed = 0;
     this.canvas = null;
-    this.noise1 = 0;
-    this.noise2 = 0;
     this.blendRadius = 0;
     this.scale = 0;
     this.fuzz = 0;
