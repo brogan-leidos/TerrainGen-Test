@@ -226,7 +226,7 @@ function diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel) {
     retNoise.push(new Array());
     for(var j=0; j < noise1[i].length; j++) {
       var amountToChange = noise2[i][j] - noise1[i][j];
-      var changeDiff = amountToChange / randomDiffuse;
+      var changeDiff = amountToChange / (randomDiffuse*.5);
       var averagedValue = noise1[i][j] + changeDiff;
       
       retNoise[i].push(averagedValue);
