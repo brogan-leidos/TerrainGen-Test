@@ -80,7 +80,7 @@ async function generateMap() {
       newWorker.onmessage = (e) => {
         noiseResponses.push(e.data);
       }
-      newWorker.postMessage([settings])
+      newWorker.postMessage([i, JSON.stringify(settings)])
     }
     
     logTime("Created Workers");
