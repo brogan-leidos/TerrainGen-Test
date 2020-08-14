@@ -17,6 +17,7 @@ class SettingObject {
 }
 
 var settings = new SettingObject();
+var times = new Array();
 
 export default () => {
   document.getElementById("genButton").addEventListener('click', () => {
@@ -53,14 +54,51 @@ async function generateMap() {
     settings.seed = Math.random();
   }
   var start = Date.now();
-  var times = new Array();
-  times.push(["Start:", Date.now()]);
-
+  times = [];
+  logTime("Start");
   var ctx = settings.canvas.getContext('2d');
 
   var image = ctx.createImageData(settings.canvas.width, settings.canvas.height);
   var imageData = image.data;
   
+  initializeSettings();
+  
+  times.push(["Initialize:", Date.now()]);
+  
+  var avgNoise;
+  if (settings.useAsync) {
+    logTime("Created Workers");
+    const noiseResponses = await Promise.all([noise1, noise2]);  
+    avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], settings.randomDiffuse, settings.seaLevel);
+  }
+  else {
+    var noise1 = generateNoise();
+    var noise2 = generateNoise(1);
+    avgNoise = diffuseRandomMap(noise1, noise2, settings.randomDiffuse, settings.seaLevel);
+  }
+  
+  logTime("Generated Noise");
+
+  imageData = colorNoise(avgNoise, imageData, settings.fuzz, settings.seaLevel, settings.isHeightMap, settings.canvas);  
+  logTime("Coloring");
+
+  
+  if (settings.blendRadius != 0) {
+    imageData = boxBlur(imageData, settings.blendRadius, settings.canvas);
+    logTime("Blur");
+  }
+    
+  ctx.putImageData(image, 0, 0);
+  logTime("Render");
+  var logStr = "";
+  for (var i=1; i < times.length; i++) {    
+    logStr += `${times[i][0]} ${times[i][1] - times[i-1][1]}ms elapsed (${times[i][1] - start} total)`;
+    logStr += "\n";
+  }
+  console.log(logStr);
+}
+
+function initializeSettings() {
   settings.blendRadius = document.getElementById("blendAmount").value;
   settings.scale = document.getElementById("scale").value;
   settings.fuzz = document.getElementById("fuzz").value;
@@ -68,59 +106,10 @@ async function generateMap() {
   settings.isHeightMap = document.getElementById("isHeightMap").checked;
   settings.randomDiffuse = document.getElementById("randomDiffuse").value;
   settings.useAsync = document.getElementById("useAsync").checked;
-  
-  times.push(["Initialize:", Date.now()]);
-  
-  var avgNoise;
-  if (settings.useAsync) {
-    var noise1 = new Promise((resolve, reject) => {
-      resolve(generateNoise());
-    });
-    
-    var noise2 = new Promise((resolve, reject) => {
-      resolve(generateNoise(1));
-    });
-     var noise3 = new Promise((resolve, reject) => {
-      resolve(generateNoise(1));
-    });
-     var noise4 = new Promise((resolve, reject) => {
-      resolve(generateNoise(1));
-    });
-     var noise5 = new Promise((resolve, reject) => {
-      resolve(generateNoise(1));
-    });
-    times.push(["Created Promises:", Date.now()]);
-    const noiseResponses = await Promise.all([noise1, noise2]);  
-    avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], settings.randomDiffuse, settings.seaLevel);
-  }
-  else {
-    var noise1 = generateNoise();
-      var noise1 = generateNoise();
-      var noise1 = generateNoise();
-      var noise1 = generateNoise();
-    var noise2 = generateNoise(1);
-    avgNoise = diffuseRandomMap(noise1, noise2, settings.randomDiffuse, settings.seaLevel);
-  }
-  
-  times.push(["Generated Noise:", Date.now()]);
+}
 
-  imageData = colorNoise(avgNoise, imageData, settings.fuzz, settings.seaLevel, settings.isHeightMap, settings.canvas);  
-  times.push(["Coloring:", Date.now()]);
-
-  
-  if (settings.blendRadius != 0) {
-    imageData = boxBlur(imageData, settings.blendRadius, settings.canvas);
-    times.push(["Blur:", Date.now()]);
-  }
-    
-  ctx.putImageData(image, 0, 0);
-  times.push(["Render:", Date.now()]);
-  var logStr = "";
-  for (var i=1; i < times.length; i++) {    
-    logStr += `${times[i][0]} ${times[i][1] - times[i-1][1]}ms elapsed (${times[i][1] - start} total)`;
-    logStr += "\n";
-  }
-  console.log(logStr);
+function logTime(title) {
+  times.push([title + ":", Date.now()]);
 }
 
 function generateNoise(seedAdd=0) { 
