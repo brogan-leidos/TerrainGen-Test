@@ -89,9 +89,13 @@ async function generateMap() {
     avgNoise = diffuseRandomMap(noiseResponses[0], noiseResponses[1], settings.randomDiffuse, settings.seaLevel);
   }
   else {
-    var noise1 = generateNoise();
-    var noise2 = generateNoise(1);
-    avgNoise = diffuseRandomMap(noise1, noise2, settings.randomDiffuse, settings.seaLevel);
+    var noiseGroup = [];
+    var numRandomNoise = 2;
+    for (var i=0; i < numRandomNoise; i++) {
+      noiseGroup.push(generateNoise(i));
+    }
+
+    avgNoise = diffuseRandomMap(noiseGroup settings.randomDiffuse, settings.seaLevel);
   }
   
   logTime("Generated Noise");
@@ -220,20 +224,18 @@ function colorHeight(value) {
   return [value, value, value, 255];
 }
 
-function diffuseRandomMap(noise1, noise2, randomDiffuse, seaLevel) {
-  var retNoise = [];
-  for(var i=0; i < noise1.length; i++) {
-    retNoise.push(new Array());
-    for(var j=0; j < noise1[i].length; j++) {
-      var amountToChange = noise2[i][j] - noise1[i][j];
-      var changeDiff = amountToChange / (randomDiffuse*.5);
-      var averagedValue = noise1[i][j] + changeDiff;
-      
-      retNoise[i].push(averagedValue);
+function diffuseRandomMap(noiseGroup, randomDiffuse, seaLevel) {
+  var retNoise = noiseGroup[0];
+  for(var i=0; i < retNoise.length; i++) {    
+    for(var j=0; j < retNoise[i].length; j++) {
+      for (var noiseSheet=1; noiseSheet < noiseGroup.length; noiseSheet++) {        
+        var amountToChange = noiseGroup[noiseSheet][i][j] - retNoise[i][j];
+        var changeDiff = amountToChange / (randomDiffuse*.5);
+        retNoise[i][j] += changeDiff;
+      }      
     }
   }
-  return retNoise;
-  
+  return retNoise;  
 }
 
 function boxBlur(data, radius, canvas) {
