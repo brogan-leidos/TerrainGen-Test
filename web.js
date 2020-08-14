@@ -39,10 +39,11 @@ function firstRun() {
   settings.scale = document.getElementById("scale").value = 100;
   settings.seaLevel = document.getElementById("heightRange").value = 70;
   settings.randomDiffuse = document.getElementById("randomDiffuse").value = 1;
-
+  settings.numDiffuseMaps = document.getElementById("numDiffuseMaps").value = 2;
+  
   settings.canvas = document.getElementsByTagName('canvas')[0];
   settings.canvas.width = 1024;
-  settings.canvas.height = 740;  
+  settings.canvas.height = 740; 
   
   generateMap();
 }
@@ -90,8 +91,8 @@ async function generateMap() {
   }
   else {
     var noiseGroup = [];
-    var numRandomNoise = 2;
-    for (var i=0; i < numRandomNoise; i++) {
+    var numDiffuseMaps = setings.numDiffuseMaps;
+    for (var i=0; i < numDiffuseMaps; i++) {
       noiseGroup.push(generateNoise(i));
     }
 
@@ -126,6 +127,7 @@ function initializeSettings() {
   settings.seaLevel = document.getElementById("heightRange").value;
   settings.isHeightMap = document.getElementById("isHeightMap").checked;
   settings.randomDiffuse = document.getElementById("randomDiffuse").value;
+  settings.numDiffuseMaps = document.getElementById("numDiffuseMaps").value;
   settings.useAsync = document.getElementById("useAsync").checked;
 }
 
