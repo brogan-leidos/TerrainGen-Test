@@ -13,5 +13,5 @@ onmessage = function(seedAdd, settings) {
       noiseData[x].push(value);
     }
   } 
-  return noiseData;
+  postMessage(noiseData);
 };
