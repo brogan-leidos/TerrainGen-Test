@@ -1,3 +1,3 @@
 # Noise Test
 
-https://brogan-leidos.github.io/noisejs/
+https://brogan-leidos.github.io/TerrainGen-Test/
